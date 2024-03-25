@@ -8,7 +8,7 @@ repos:
    -  id: check-yaml
    -  id: requirements-txt-fixer
    -  id: no-commit-to-branch
-      args: ['--branch', 'master', '--branch', 'develop']
+      args: ['--branch', 'main', '--branch', 'develop']
 -  repo: https://github.com/pre-commit/mirrors-autopep8
    rev: 'v2.0.4'
    hooks:
