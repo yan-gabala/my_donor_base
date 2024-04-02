@@ -1,0 +1,22 @@
+version: '3.8'
+
+volumes:
+  pg_data_production:
+
+services:
+  web:
+    build: .
+    command: >
+        bash -c "cd donor_base 
+        && python manage.py makemigrations
+        && python manage.py migrate
+        && python manage.py runserver 0.0.0.0:8000"
+    container_name: donor_base
+    ports:
+      - "8000:8000"
+  db:
+    container_name: donor_base_db
+    image: postgres:13
+    env_file: ../.env
+    volumes:
+      - pg_data_production:/var/lib/postgresql/data
