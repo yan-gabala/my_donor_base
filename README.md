@@ -35,3 +35,48 @@ https://thelinuxcode.com/run-makefile-windows/
 ```bash
 (venv)$ pre-commit install
 ```
+
+### Celery
+Celery включен в индекс пакетов Python (PyPI), поэтому его можно установить с помощью стандартных инструментов Python,
+таких как pip:
+
+```bash
+(venv)$ pip install celery
+```
+
+### RabbitMQ 
+Является полнофункционалным, стабильным и надежным и простым в установке. Это отличный выбор для производственной
+среды. Подробная информаци об использования RabbitMQ с Celery
+
+<details>
+    <summary><b>Использование RabbitMQ.</b></summary>
+
+```shell
+https://docs.celeryq.dev/en/stable/getting-started/backends-and-brokers/rabbitmq.html#broker-rabbitmq
+```
+</details>
+
+Если вы используете Linux, установите RabbitMQ, выполнив эту команду
+
+```bash
+$ sudo apt-get install rabbitmq-server
+```
+
+Или, если вы хотите запустить его в Docker, выполните следующее:
+
+```bash
+$ docker run -d -p 5672:5672 rabbitmq
+```
+
+Когда команда завершится, брокер уже будет работать в фоновом режиме и готов переместить для вас сообщения: 
+.Starting rabbitmq-server: SUCCESS
+Вы можете зайти на этот сайт и найти аналогичные простые инструкции по установке для других платформ,
+включая Microsoft Windows:
+
+<details>
+    <summary><b>Установка RabbitMQ</b></summary>
+
+```shell
+http://www.rabbitmq.com/download.html
+```
+</details>
