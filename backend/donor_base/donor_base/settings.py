@@ -1,4 +1,9 @@
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -77,11 +82,13 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = "static/"
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CELERY_BROKER_URL = "amqp://myuser:mypassword@localhost:5672/myvhost"
+STATIC_URL = os.getenv("STATIC_URL", "static/")
+
+CELERY_BROKER_URL = os.getenv(
+    "CELERY_BROKER_URL", "amqp://myuser:mypassword@localhost:5672/myvhost"
+)
 
 CELERY_ACCEPT_CONTENT = ["application/json"]
 
