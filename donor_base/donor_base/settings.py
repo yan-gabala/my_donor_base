@@ -84,7 +84,10 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-STATIC_URL = os.getenv("STATIC_URL", "static/")
+STATIC_URL = os.getenv("STATIC_URL", "/static/")
+
+# Папка со статикой внутри контейнера backend
+STATIC_ROOT = "/app/static/"
 
 CELERY_BROKER_URL = os.getenv(
     "CELERY_BROKER_URL", "amqp://myuser:mypassword@localhost:5672/myvhost"
