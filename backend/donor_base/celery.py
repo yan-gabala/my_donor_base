@@ -10,5 +10,8 @@ app.autodiscover_tasks()
 
 @app.task(bind=True, ignore_result=True)
 def debug_task(self):
-    """Представляет собой задачу, которая выгружает собственную информацию о запросе."""
+    """
+    Представляет собой задачу,
+    которая выгружает собственную информацию о запросе.
+    """
     print(f'Request: {self.request!r}')
