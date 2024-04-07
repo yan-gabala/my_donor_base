@@ -13,7 +13,7 @@ install: ## Обновляет pip и устанавливает всё из req
 	pip install -r requirements.txt
 
 first_run_docker:
-    docker compose exec backend python3 manage.py collectstatic && \
-    docker compose exec backend cp -r /app/static/. /static/static/ && \
-    docker compose exec backend python3 manage.py makemigrations && \
-    docker compose exec backend python3 manage.py migrate
+	docker compose exec backend python3 manage.py collectstatic && \
+	docker compose exec backend cp -r /app/static/. /static/static/ && \
+	docker compose exec backend python3 manage.py makemigrations && \
+	docker compose exec backend python3 manage.py migrate
