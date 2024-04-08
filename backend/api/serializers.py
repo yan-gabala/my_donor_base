@@ -2,6 +2,7 @@
 from rest_framework import serializers
 
 from donations.models import Donation
+from contacts.models import Contact
 
 
 class DonationSerializer(serializers.ModelSerializer):
@@ -17,4 +18,17 @@ class DonationSerializer(serializers.ModelSerializer):
             "payment_method",
             "monthly_donat",
             "subscription",
+        )
+
+
+class ContactSerializer(serializers.ModelSerializer):
+    """Сериализатор контактов."""
+
+    class Meta:
+        model = Contact
+        fields = (
+            "username",
+            "email",
+            "subject",
+            "comment"
         )

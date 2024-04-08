@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "api.apps.ApiConfig",
     "donations.apps.DonationsConfig",
+    "contacts.apps.DonationsConfig",
 ]
 
 MIDDLEWARE = [
@@ -115,10 +116,6 @@ CELERY_BROKER_URL = os.getenv(
 
 CELERY_ACCEPT_CONTENT = ["application/json"]
 
-CELERY_RESULT_SERIALIZER = "json"
-
-CELERY_TASK_SERIALIZER = "json"
-
 CELERY_TIMEZONE = "Europe/Moscow"
 
 CELERY_TASK_TRACK_STARTED = True
@@ -143,3 +140,10 @@ AMOUNT = [
 ]
 
 EMPTY_VALUE = '-пусто-'
+
+MAX_USERNAME_LENGTH = 150
+MAX_EMAIL_LENGTH = 255
+MAX_SUBJECT_LENGTH = 255
+FORBIDDEN_WORDS = [
+    "абьюз", "абьюзер", "abuse", "abuser"
+]
