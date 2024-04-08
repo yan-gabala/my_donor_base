@@ -7,11 +7,11 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-&!$&zdfp_eqc=qsnrfwqyt5aw*pa2%2xdcgjkhlbnmxlc3cmq1"
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = True
+DEBUG = os.getenv('DEBUG', '').lower() in ['true', 'yes', '1']
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -20,6 +20,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "api.apps.ApiConfig",
+    "donations.apps.DonationsConfig",
 ]
 
 MIDDLEWARE = [
@@ -52,10 +54,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "donor_base.wsgi.application"
 
+# sqlite3
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
+# postgresql
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('POSTGRES_DB', 'django'),
+        'USER': os.getenv('POSTGRES_USER', 'django'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', ''),
+        'HOST': os.getenv('DB_HOST', ''),
+        'PORT': os.getenv('DB_PORT', 5432),
     }
 }
 
@@ -74,7 +89,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ru-RU"
 
 TIME_ZONE = "UTC"
 
@@ -84,10 +99,15 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 3,
+}
+
 STATIC_URL = os.getenv("STATIC_URL", "/static/")
 
 # Папка со статикой внутри контейнера backend
-STATIC_ROOT = "/app/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 CELERY_BROKER_URL = os.getenv(
     "CELERY_BROKER_URL", "amqp://myuser:mypassword@localhost:5672/myvhost"
@@ -104,3 +124,22 @@ CELERY_TIMEZONE = "Europe/Moscow"
 CELERY_TASK_TRACK_STARTED = True
 
 CELERY_TASK_TIME_LIMIT = 30 * 60
+
+# Константы проекта
+
+PAYMENT_METHOD_LENGTH = 64
+
+ZERO = 0
+THREE_HUNDRED = 300
+FIVE_HUNDRED = 500
+THOUSAND = 1000
+THREE_THOUSAND = 3000
+AMOUNT = [
+    (ZERO, '0'),
+    (THREE_HUNDRED, '300'),
+    (FIVE_HUNDRED, '500'),
+    (THOUSAND, '1000'),
+    (THREE_THOUSAND, '3000')
+]
+
+EMPTY_VALUE = '-пусто-'
