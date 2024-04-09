@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from .validators import forbidden_words_validator
+from api.validators import forbidden_words_validator
 
 
 class Contact(AbstractUser):
@@ -35,9 +35,26 @@ class Contact(AbstractUser):
         constraints = [
             models.UniqueConstraint(
                 fields=["username", "email"],
-                name="unique_username_and_email"
+                name="Уникальное имя пользователя и электронная почта"
             )
         ]
 
     def __str__(self):
         return f"{self.username} - {self.email}"
+
+
+class ForbiddenWord(models.Model):
+    """Модель запрещенных слов."""
+
+    forbidden_word = models.CharField(
+        max_length=settings.MAX_FORBIDDEN_WORLD_LENGTH,
+        unique=True,
+        verbose_name="Запрещенное слово"
+    )
+
+    class Meta:
+        verbose_name = "Запрещенное слово"
+        verbose_name_plural = "Запрещенные слова"
+
+    def __str__(self):
+        return self.forbidden_word
