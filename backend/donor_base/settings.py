@@ -22,7 +22,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "api.apps.ApiConfig",
     "donations.apps.DonationsConfig",
-    "contacts.apps.DonationsConfig",
+    "contacts.apps.ContactsConfig",
+    "forbiddenwords.apps.ForbiddenwordsConfig"
 ]
 
 MIDDLEWARE = [
@@ -34,6 +35,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+AUTH_USER_MODEL = "contacts.Contact"
 
 ROOT_URLCONF = "donor_base.urls"
 
