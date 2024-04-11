@@ -2,7 +2,7 @@
 from django.conf import settings
 from django.contrib import admin
 
-from .models import Contact, ForbiddenWord
+from .models import Contact
 
 
 @admin.register(Contact)
@@ -17,14 +17,3 @@ class ContactAdmin(admin.ModelAdmin):
     )
     empty_value_display = settings.EMPTY_VALUE
     list_filter = ("username",)
-
-
-@admin.register(ForbiddenWord)
-class ForbiddenWordAdmin(admin.ModelAdmin):
-    """Админ зона для запрещенных слов."""
-
-    list_display = (
-        "forbidden_word"
-    )
-    empty_value_display = settings.EMPTY_VALUE
-    list_filter = ("forbidden_word",)
