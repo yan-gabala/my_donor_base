@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 from donations.models import Donation
 from contacts.models import Contact
+from forbiddenwords.models import ForbiddenWord
 
 
 class DonationSerializer(serializers.ModelSerializer):
@@ -26,9 +27,12 @@ class ContactSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Contact
-        fields = (
-            "username",
-            "email",
-            "subject",
-            "comment"
-        )
+        fields = ("username", "email", "subject", "comment")
+
+
+class ForbiddenwordSerializer(serializers.ModelSerializer):
+    """Сериализатор запрещенных слов."""
+
+    class Meta:
+        model = ForbiddenWord
+        fields = ("forbidden_word",)
