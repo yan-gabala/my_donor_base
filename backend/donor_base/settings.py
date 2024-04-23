@@ -23,7 +23,9 @@ INSTALLED_APPS = [
     "api.apps.ApiConfig",
     "donations.apps.DonationsConfig",
     "contacts.apps.ContactsConfig",
-    "forbiddenwords.apps.ForbiddenwordsConfig"
+    "forbiddenwords.apps.ForbiddenwordsConfig",
+    "payments",
+    "cloudpayments",
 ]
 
 MIDDLEWARE = [
@@ -148,3 +150,13 @@ MAX_USERNAME_LENGTH = 150
 MAX_EMAIL_LENGTH = 255
 MAX_SUBJECT_LENGTH = 255
 MAX_FORBIDDEN_WORLD_LENGTH = 100
+
+PAYMENT_HOST = "example.com"  # Тут должен быть указан домен проекта
+PAYMENT_USES_SSL = False
+PAYMENT_MODEL = "cloudpayments.models.CloudPayment"
+CLOUDPAYMENTS_ACCOUNT_ID = "your_account_id_here"
+CLOUDPAYMENT_PUBLIC_KEY = "cloudpayment_public_key"
+CLOUDPAYMENT_SECRET_KEY = "cloudpayment_secret_key"
+PAYMENT_VARIANTS = {
+    "cloudpayment": ("cloudpayments.CloudPaymentProvider", {})
+}

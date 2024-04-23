@@ -4,3 +4,4 @@ django-cors-headers==3.13.0
 psycopg2-binary==2.9.3
 celery==5.3.6
 python-dotenv==1.0.1
+django-payments==2.0.0
