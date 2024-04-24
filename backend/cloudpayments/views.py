@@ -1,27 +1,30 @@
 import datetime
 import requests
 
-from django.shortcuts import render, redirect
 from django.conf import settings
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.viewsets import ViewSet
+
+from .models import CloudPayment
+from .serializers import CloudpaymentsSerializer
 
 
-def generate_unique_order_id():
+class CloudPaymentsViewSet(ViewSet):
     """
-    Создание идентификатора перевода.
+    Вьсюсет для Cloudpayment.
     """
-    return datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 
-
-def payment_view(request):
-    """
-    Представление для Cloudpayment
-    """
-    if request.method == "POST":
-        amount = request.POST.get("amount")
+    def create(self, request):
+        """
+        Создание экзепмляра Cloudpayment.
+        """
+        amount = request.data.get("amount")
         url = "https://api.cloudpayments.ru/payments/tokens/create"
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Basic {settings.CLOUDPAYMENTS_PUBLIC_KEY}:{settings.CLOUDPAYMENTS_SECRET_KEY}"
+            "Authorization": f"Basic {settings.CLOUDPAYMENTS_PUBLIC_KEY}:"
+                             f"{settings.CLOUDPAYMENTS_SECRET_KEY}"
         }
         data = {
             "Amount": amount,
@@ -30,14 +33,29 @@ def payment_view(request):
             "Email": request.user.email,
             "Description": "Денежный перевод",
             "JsonData": {
-                "OrderId": generate_unique_order_id()
+                "OrderId": self.generate_unique_order_id()
             }
         }
         response = requests.post(url, headers=headers, json=data)
         if response.status_code == 200:
             payment_token = response.json().get("Model").get("Token")
-            return redirect(f"https://api.cloudpayments.ru/payments/tokens/{payment_token}")
+            cloudpayments_instance = CloudPayment(
+                user=request.user,
+                amount=amount,
+                currency="RUB",
+                order_id=data["JsonData"]["OrderId"],
+                payment_token=payment_token
+            )
+            cloudpayments_instance.save()
+            serializer = CloudpaymentsSerializer(cloudpayments_instance)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return render(request, "error.html", {"error": "Ошибка при создании платежа"})
-    else:
-        return render(request, "payment_form.html")
+            return Response({"error": "Ошибка при создании платежа"},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    @staticmethod
+    def generate_unique_order_id():
+        """
+        Создание идентификатора перевода.
+        """
+        return datetime.datetime.now().strftime("%Y%m%d%H%M%S")
