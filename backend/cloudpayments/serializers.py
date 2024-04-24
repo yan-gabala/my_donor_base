@@ -7,7 +7,6 @@ class CloudpaymentsSerializer(serializers.ModelSerializer):
     """
     Сериалайзер для модели CloudPayment.
     """
-
     class Meta:
         model = CloudPayment
         fields = "__all__"
