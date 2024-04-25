@@ -149,8 +149,3 @@ MAX_USERNAME_LENGTH = 150
 MAX_EMAIL_LENGTH = 255
 MAX_SUBJECT_LENGTH = 255
 MAX_FORBIDDEN_WORLD_LENGTH = 100
-
-# Здесь будут ключи API Cloudpayments и id заказчика
-CLOUDPAYMENTS_ACCOUNT_ID = "your_account_id_here"
-CLOUDPAYMENT_PUBLIC_KEY = "cloudpayment_public_key"
-CLOUDPAYMENT_SECRET_KEY = "cloudpayment_secret_key"
