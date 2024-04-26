@@ -2,20 +2,24 @@ import requests
 from django.conf import settings
 
 
-def send_failed_payment_email(recipient_email, message):
+def send_payment_email(recipient_email, message):
     sender_email = settings.DEFAULT_FROM_EMAIL
     subject = "Payment Rejected"
-    api_key = ""
+    sender_name = "Vasya Pupkin"
+    api_key = settings.UNISENDER_API_KEY
+    list_id = 1
 
-    url = "https://api.unisender.com/ru/api/sendEmail"
+    url = settings.UNISENDER_SENDEMAIL_URL
 
     data = {
         "api_key": api_key,
         "format": "json",
         "email": recipient_email,
         "sender_email": sender_email,
+        "sender_name": sender_name,
         "subject": subject,
         "body": message,
+        "list_id": list_id,
     }
 
     response = requests.post(url, data=data)
