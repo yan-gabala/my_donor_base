@@ -1,7 +1,7 @@
 # Модуль собственных валидаторов.
 from django.core.exceptions import ValidationError
 
-from contacts.models import ForbiddenWord
+from forbiddenwords.models import ForbiddenWord
 
 
 def forbidden_words_validator(value):

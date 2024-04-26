@@ -2,12 +2,17 @@
 from django.conf import settings
 from django.db import models
 
+from api.validators import forbidden_words_validator
+
 
 class Donation(models.Model):
     """Модель пожертвований."""
 
     email = models.EmailField(
-        verbose_name="Почта",
+        max_length=settings.MAX_EMAIL_LENGTH,
+        unique=True,
+        validators=[forbidden_words_validator],
+        verbose_name="Электронная почта",
     )
     donat = models.PositiveSmallIntegerField(
         choices=settings.AMOUNT,
