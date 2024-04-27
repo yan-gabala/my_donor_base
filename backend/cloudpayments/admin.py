@@ -17,7 +17,7 @@ class CloudPaymentAdmin(admin.ModelAdmin):
         "monthly_donat",
         "subscription",
         "pub_date",
-        "payment_status"
+        "payment_status",
     )
     empty_value_display = settings.EMPTY_VALUE
     list_filter = ("pub_date",)

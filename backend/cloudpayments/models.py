@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 from donations.models import Donation
 
@@ -9,12 +10,13 @@ class CloudPayment(Donation):
     """
 
     payment_status = models.CharField(
-        max_length=20,
-        choices=[
-            ("success", "Успешно"),
-            ("failure", "Ошибка")
-        ],
-        verbose_name="Статус платежа"
+        max_length=settings.MAX_PAYMENT_STATUS_LENGTH,
+        choices=[("success", "Успешно"), ("failure", "Ошибка")],
+        verbose_name="Статус платежа",
+    )
+    currency = models.CharField(
+        max_length=settings.MAX_CURRENCY_LENGTH,
+        verbose_name="Валюта платежа"
     )
 
     class Meta:
