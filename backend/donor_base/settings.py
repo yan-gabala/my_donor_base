@@ -24,10 +24,12 @@ INSTALLED_APPS = [
     "donations.apps.DonationsConfig",
     "contacts.apps.ContactsConfig",
     "forbiddenwords.apps.ForbiddenwordsConfig",
+    "acquiring.apps.AcquiringConfig",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",

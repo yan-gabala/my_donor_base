@@ -2,7 +2,7 @@
 # from django.db.models.signals import post_save
 #
 # from .utils import send_payment_email
-# from .models import Donation
+# from ..donations.models import Donation
 #
 #
 # @receiver(post_save, sender=Donation)

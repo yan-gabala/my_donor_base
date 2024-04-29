@@ -2,7 +2,6 @@ version: '3.8'
 
 volumes:
   pg_data:
-  static:
 
 services:
   db:
@@ -15,8 +14,6 @@ services:
   backend:
     build: ./backend/
     env_file: .env
-    volumes:
-      - static:/app/static/
     depends_on:
       - db
     restart: on-failure
