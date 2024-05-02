@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "contacts.apps.ContactsConfig",
     "forbiddenwords.apps.ForbiddenwordsConfig",
     "cloudpayments.apps.CloudpaymentsConfig",
+    "mixplat.apps.MixplatConfig",
 ]
 
 MIDDLEWARE = [
@@ -81,16 +82,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",  # noqa
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",  # noqa
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",  # noqa
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",  # noqa
     },
 ]
 
@@ -106,6 +107,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",  # noqa
     "PAGE_SIZE": 3,
 }
 
@@ -143,6 +145,9 @@ AMOUNT = [
     (THREE_THOUSAND, "3000"),
 ]
 
+
+DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+
 EMPTY_VALUE = "-пусто-"
 
 MAX_USERNAME_LENGTH = 150
@@ -153,3 +158,7 @@ MAX_PAYMENT_STATUS_LENGTH = 20
 MAX_CURRENCY_LENGTH = 10
 
 CLOUDPAYMET_CHOICES = [("success", "Успешно"), ("failure", "Ошибка")]
+
+MAX_PAYMENT_ID_LENGTH = 100
+MAX_PAYMENT_STATUS_LENGTH = 100
+MAX_USER_COMMENT_LENGTH = 100

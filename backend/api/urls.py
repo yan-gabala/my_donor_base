@@ -7,6 +7,7 @@ from .views import (
     DonationViewSet,
     ForbiddenwordViewSet,
     CloudPaymentsViewSet,
+    MixplatViewSet,
 )
 
 app_name = "api"
@@ -20,6 +21,7 @@ router_v1.register(
 router_v1.register(
     "cloudpayments", CloudPaymentsViewSet, basename="cloudpayments"
 )
+router_v1.register("mixplat", MixplatViewSet, basename="mixplat")
 
 urlpatterns = [
     path("", include(router_v1.urls)),

@@ -5,6 +5,7 @@ from donations.models import Donation
 from contacts.models import Contact
 from forbiddenwords.models import ForbiddenWord
 from cloudpayments.models import CloudPayment
+from mixplat.models import MixPlat
 
 
 class DonationSerializer(serializers.ModelSerializer):
@@ -20,6 +21,28 @@ class DonationSerializer(serializers.ModelSerializer):
             "payment_method",
             "monthly_donat",
             "subscription",
+        )
+
+
+class MixPlatSerializer(serializers.ModelSerializer):
+    """Сериализатор платежа Mixplat."""
+
+    class Meta:
+        model = MixPlat
+        fields = (
+            "id",
+            "email",
+            "donat",
+            "custom_donat",
+            "payment_method",
+            "monthly_donat",
+            "subscription",
+            "payment_id",
+            "status",
+            "user_account_id",
+            "user_comment",
+            "date_created",
+            "date_processed",
         )
 
 

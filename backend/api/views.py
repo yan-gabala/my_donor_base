@@ -2,6 +2,7 @@
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework import viewsets
 
 from .mixins import ViewListCreateMixinsSet
 from .permissions import IsAdmin
@@ -10,11 +11,13 @@ from .serializers import (
     ContactSerializer,
     ForbiddenwordSerializer,
     CloudpaymentsSerializer,
+    MixPlatSerializer,
 )
+from .utils import mixplat_request_handler, get_cloudpayment_data
 from contacts.models import Contact
 from donations.models import Donation
 from forbiddenwords.models import ForbiddenWord
-from .utils import get_cloudpayment_data
+from mixplat.models import MixPlat
 
 
 class DonationViewSet(viewsets.ModelViewSet):
@@ -40,6 +43,18 @@ class ForbiddenwordViewSet(ViewListCreateMixinsSet):
     pagination_class = None
 
 
+class MixplatViewSet(viewsets.ModelViewSet):
+    """Вьюсет Mixplat."""
+
+    queryset = MixPlat.objects.all()
+    serializer_class = MixPlatSerializer
+
+    @action(detail=False, url_path="payment_status", methods=("post",))
+    def payment_status(self, request):
+        """Метод получения данных от Mixplat."""
+        return mixplat_request_handler(request)
+
+    
 class CloudPaymentsViewSet(viewsets.GenericViewSet):
     """
     Вьсюсет для Cloudpayment.
