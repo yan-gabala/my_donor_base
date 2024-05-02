@@ -6,6 +6,7 @@ from .views import (
     ContactViewSet,
     DonationViewSet,
     ForbiddenwordViewSet,
+    CloudPaymentsViewSet,
     MixplatViewSet,
 )
 
@@ -16,6 +17,9 @@ router_v1.register("donations", DonationViewSet, basename="donations")
 router_v1.register("contacts", ContactViewSet, basename="contacts")
 router_v1.register(
     "forbiddenwords", ForbiddenwordViewSet, basename="forbiddenwords"
+)
+router_v1.register(
+    "cloudpayments", CloudPaymentsViewSet, basename="cloudpayments"
 )
 router_v1.register("mixplat", MixplatViewSet, basename="mixplat")
 

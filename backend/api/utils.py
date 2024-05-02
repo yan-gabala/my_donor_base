@@ -52,3 +52,14 @@ def mixplat_request_handler(request):
             dict(result="error", error_description="Internal error"),
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+      
+def get_cloudpayment_data(request):
+    data = {
+        "email": request.data.get("receipt_email"),
+        "donat": request.data.get("amount"),
+        "payment_method": request.data.get("payment_method"),
+        "payment_status": request.data.get("status"),
+        "currency": request.data.get("currency"),
+    }
+    return data
