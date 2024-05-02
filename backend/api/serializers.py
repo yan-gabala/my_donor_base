@@ -55,5 +55,5 @@ class CloudpaymentsSerializer(serializers.ModelSerializer):
             "monthly_donat",
             "subscription",
             "payment_status",
-            "currency"
+            "currency",
         )

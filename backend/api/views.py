@@ -14,6 +14,7 @@ from .serializers import (
 from contacts.models import Contact
 from donations.models import Donation
 from forbiddenwords.models import ForbiddenWord
+from cloudpayments.utils import get_cloudpayment_data
 
 
 class DonationViewSet(viewsets.ModelViewSet):
@@ -49,16 +50,10 @@ class CloudPaymentsViewSet(viewsets.GenericViewSet):
         """
         Создание экзепмляра Cloudpayment.
         """
-        # При успешном создании платежа через Stripe, возвращается объект PaymentIntent.
-        # Оттолкнулся от его структуры.
-        data = {
-            "email": request.data.get("receipt_email"),
-            "donat": request.data.get("amount"),
-            "payment_method": request.data.get("payment_method"),
-            "payment_status": request.data.get("status"),
-            "currency": request.data.get("currency")
-        }
-        serializer = CloudpaymentsSerializer(data=data)
+        # TODO: Добавить настройку разрешений:
+        #  - создание записи только при запросе от сервиса Stripe,
+        #  - просмотр, удаление - только админам
+        serializer = CloudpaymentsSerializer(data=get_cloudpayment_data(request))
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
