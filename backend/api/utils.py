@@ -36,6 +36,7 @@ def mixplat_request_handler(request):
             subject=request.data["user_account_id"],
             comment=request.data["user_comment"],
         )
+        MixPlat.objects.create(**mixplat_obj_dict)
         if (
             Contact.objects.filter(
                 username=request.data["user_name"],
@@ -45,16 +46,7 @@ def mixplat_request_handler(request):
         ):
             Contact.objects.create(**contact_obj_dict)
 
-        if request.data["status"] == "success":
-            MixPlat.objects.create(**mixplat_obj_dict)
-        else:
-            """
-            отправляем письмо НЕ успешного доната
-            """
-            # send_email_failed_donat(request.data["user_email"])
-
         return Response(dict(result="ok"), status=status.HTTP_200_OK)
-
     except KeyError:
         return Response(
             dict(result="error", error_description="Internal error"),
