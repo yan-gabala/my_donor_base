@@ -24,7 +24,7 @@ class DonationSerializer(serializers.ModelSerializer):
 
 
 class MixPlatSerializer(serializers.ModelSerializer):
-    """Сериализатор пожертвований."""
+    """Сериализатор платежа Mixplat."""
 
     class Meta:
         model = MixPlat

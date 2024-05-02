@@ -29,3 +29,8 @@ class MixPlat(Donation):
     date_processed = models.DateTimeField(
         verbose_name="Дата проведения платежа",
     )
+
+    class Meta:
+        ordering = ("-pub_date",)
+        verbose_name = "Платеж Mixplat"
+        verbose_name_plural = "Платежы Mixplat"
