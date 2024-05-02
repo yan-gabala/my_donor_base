@@ -14,7 +14,7 @@ from .serializers import (
 from contacts.models import Contact
 from donations.models import Donation
 from forbiddenwords.models import ForbiddenWord
-from cloudpayments.utils import get_cloudpayment_data
+from .utils import get_cloudpayment_data
 
 
 class DonationViewSet(viewsets.ModelViewSet):
@@ -53,7 +53,9 @@ class CloudPaymentsViewSet(viewsets.GenericViewSet):
         # TODO: Добавить настройку разрешений:
         #  - создание записи только при запросе от сервиса Stripe,
         #  - просмотр, удаление - только админам
-        serializer = CloudpaymentsSerializer(data=get_cloudpayment_data(request))
+        serializer = CloudpaymentsSerializer(
+            data=get_cloudpayment_data(request)
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -4,6 +4,6 @@ def get_cloudpayment_data(request):
         "donat": request.data.get("amount"),
         "payment_method": request.data.get("payment_method"),
         "payment_status": request.data.get("status"),
-        "currency": request.data.get("currency")
+        "currency": request.data.get("currency"),
     }
     return data

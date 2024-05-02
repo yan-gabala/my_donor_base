@@ -152,7 +152,4 @@ MAX_FORBIDDEN_WORLD_LENGTH = 100
 MAX_PAYMENT_STATUS_LENGTH = 20
 MAX_CURRENCY_LENGTH = 10
 
-CLOUDPAYMET_CHOICES = [
-    ("success", "Успешно"),
-    ("failure", "Ошибка")
-]
+CLOUDPAYMET_CHOICES = [("success", "Успешно"), ("failure", "Ошибка")]
