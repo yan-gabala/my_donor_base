@@ -1,7 +1,6 @@
 # Модуль представлений проекта.
-from rest_framework import status, viewsets
+from rest_framework import viewsets
 from rest_framework.decorators import action
-from rest_framework.response import Response
 
 from .mixins import ViewListCreateMixinsSet
 from .permissions import IsAdmin
@@ -9,10 +8,13 @@ from .serializers import (
     DonationSerializer,
     ContactSerializer,
     ForbiddenwordSerializer,
+    MixPlatSerializer,
 )
+from .utils import mixplat_request_handler
 from contacts.models import Contact
 from donations.models import Donation
 from forbiddenwords.models import ForbiddenWord
+from mixplat.models import MixPlat
 
 
 class DonationViewSet(viewsets.ModelViewSet):
@@ -38,22 +40,13 @@ class ForbiddenwordViewSet(ViewListCreateMixinsSet):
     pagination_class = None
 
 
-class MixplatViewSet(viewsets.GenericViewSet):
+class MixplatViewSet(viewsets.ModelViewSet):
     """Вьюсет Mixplat."""
+
+    queryset = MixPlat.objects.all()
+    serializer_class = MixPlatSerializer
 
     @action(detail=False, url_path="payment_status", methods=("post",))
     def payment_status(self, request):
         """Метод получения данных от Mixplat."""
-        try:
-            Donation.objects.create(
-                email=request.data["user_email"],
-                donat=request.data["amount"],
-                custom_donat=request.data["amount_user"],
-                payment_method=request.data["payment_method"],
-            ).save()
-            return Response(dict(result="ok"), status=status.HTTP_200_OK)
-        except KeyError:
-            return Response(
-                dict(result="error", error_description="Internal error"),
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        return mixplat_request_handler(request)
