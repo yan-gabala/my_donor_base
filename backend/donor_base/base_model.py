@@ -10,7 +10,6 @@ class BaseModelDonation(models.Model):
 
     email = models.EmailField(
         max_length=settings.MAX_EMAIL_LENGTH,
-        unique=True,
         validators=[forbidden_words_validator],
         verbose_name="Электронная почта",
     )
