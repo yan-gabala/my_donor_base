@@ -1,10 +1,10 @@
 from django.db import models
 from django.conf import settings
 
-from donations.models import Donation
+from donor_base.base_model import BaseModelDonation
 
 
-class CloudPayment(Donation):
+class CloudPayment(BaseModelDonation):
     """
     Модель платежа Cloudpayment.
     """

@@ -1,16 +1,15 @@
-# Модуль модели пожертвований.
+# Модуль базовой модели для всех пожертвований.
 from django.conf import settings
 from django.db import models
 
 from api.validators import forbidden_words_validator
 
 
-class Donation(models.Model):
-    """Модель пожертвований."""
+class BaseModelDonation(models.Model):
+    """Базовая модель для всех пожертвований."""
 
     email = models.EmailField(
         max_length=settings.MAX_EMAIL_LENGTH,
-        unique=True,
         validators=[forbidden_words_validator],
         verbose_name="Электронная почта",
     )
@@ -41,6 +40,4 @@ class Donation(models.Model):
     )
 
     class Meta:
-        ordering = ("-pub_date",)
-        verbose_name = "Пожертвование"
-        verbose_name_plural = "Пожертвования"
+        abstract = True

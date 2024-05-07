@@ -21,7 +21,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "api.apps.ApiConfig",
-    "donations.apps.DonationsConfig",
     "contacts.apps.ContactsConfig",
     "forbiddenwords.apps.ForbiddenwordsConfig",
     "cloudpayments.apps.CloudpaymentsConfig",
@@ -106,7 +105,6 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",  # noqa
     "PAGE_SIZE": 3,
 }

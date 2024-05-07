@@ -53,7 +53,7 @@ def mixplat_request_handler(request):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-      
+
 def get_cloudpayment_data(request):
     data = {
         "email": request.data.get("receipt_email"),
