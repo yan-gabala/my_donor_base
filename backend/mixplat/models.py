@@ -2,10 +2,10 @@
 from django.conf import settings
 from django.db import models
 
-from donations.models import Donation
+from donor_base.base_model import BaseModelDonation
 
 
-class MixPlat(Donation):
+class MixPlat(BaseModelDonation):
     """Модель платежа Mixplat."""
 
     payment_id = models.CharField(
