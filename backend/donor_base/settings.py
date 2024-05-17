@@ -24,12 +24,13 @@ INSTALLED_APPS = [
     "donations.apps.DonationsConfig",
     "contacts.apps.ContactsConfig",
     "forbiddenwords.apps.ForbiddenwordsConfig",
+    "cloudpayments.apps.CloudpaymentsConfig",
+    "mixplat.apps.MixplatConfig",
     "acquiring.apps.AcquiringConfig",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -150,6 +151,3 @@ MAX_USERNAME_LENGTH = 150
 MAX_EMAIL_LENGTH = 255
 MAX_SUBJECT_LENGTH = 255
 MAX_FORBIDDEN_WORLD_LENGTH = 100
-
-UNISENDER_API_KEY = os.getenv("UNISENDER_API_KEY")
-UNISENDER_SENDEMAIL_URL = "https://api.unisender.com/ru/api/sendEmail"
