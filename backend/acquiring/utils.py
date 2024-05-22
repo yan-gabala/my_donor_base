@@ -3,9 +3,10 @@ from django.conf import settings
 
 
 def send_payment_email(recipient_email, message):
+    """Sending message via Unisender method."""
     sender_email = settings.DEFAULT_FROM_EMAIL
-    subject = "Payment Rejected"
-    sender_name = "Vasya Pupkin"
+    subject = "Payment information"
+    sender_name = "Vasya Pupkin"  # нужно прописать в настройках
     api_key = settings.UNISENDER_API_KEY
     list_id = 1
 
@@ -26,5 +27,10 @@ def send_payment_email(recipient_email, message):
 
     if response.status_code != 200:
         print(f"Ошибка при отправке сообщения: {response.status_code}")
+    # TODO: добавить содержимое ответа для дополнительной информации об ошибке
     else:
         print("Сообщение успешно отправлено")
+
+
+# TODO: добавить логику для обработки подтверждения
+#  от UniSender о фактической отправке сообщения
