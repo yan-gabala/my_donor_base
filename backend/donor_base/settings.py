@@ -21,7 +21,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "api.apps.ApiConfig",
-    "donations.apps.DonationsConfig",
     "contacts.apps.ContactsConfig",
     "forbiddenwords.apps.ForbiddenwordsConfig",
     "cloudpayments.apps.CloudpaymentsConfig",
@@ -37,6 +36,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 AUTH_USER_MODEL = "contacts.Contact"
@@ -147,9 +147,26 @@ AMOUNT = [
     (THREE_THOUSAND, "3000"),
 ]
 
+
+DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+
 EMPTY_VALUE = "-пусто-"
 
 MAX_USERNAME_LENGTH = 150
 MAX_EMAIL_LENGTH = 255
 MAX_SUBJECT_LENGTH = 255
 MAX_FORBIDDEN_WORLD_LENGTH = 100
+MAX_CURRENCY_LENGTH = 10
+
+CLOUDPAYMET_CHOICES = [("success", "Успешно"), ("failure", "Ошибка")]
+
+MAX_PAYMENT_ID_LENGTH = 100
+MAX_PAYMENT_STATUS_LENGTH = 100
+MAX_USER_COMMENT_LENGTH = 100
+DEFAULT_CONF = {
+    "base_url": "https://api.unisender.com",
+    "lang": "en",
+    "format": "json",
+    "api_key": None,
+    "platform": None,
+}
