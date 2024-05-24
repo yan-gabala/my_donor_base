@@ -1,4 +1,5 @@
 # Модуль бизнес логики проекта.
+import http
 import requests
 from datetime import datetime
 
@@ -69,10 +70,13 @@ def get_cloudpayment_data(request):
 
 def check_cloudpayments_connection():
     """Проверка подключения к api cloudpayments."""
-    url = settings.CLOUDPAYMETS_API_TEST_URL
+    url = settings.CLOUDPAYMENTS_API_TEST_URL
     headers = {"Content-Type": "application/json"}
-    auth = (settings.CLOUDPAYMETS_PUBLIC_ID, settings.CLOUDPAYMETS_API_SECRET)
+    auth = (
+        settings.CLOUDPAYMENTS_PUBLIC_ID,
+        settings.CLOUDPAYMENTS_API_SECRET,
+    )
     response = requests.post(url, headers=headers, auth=auth)
-    if response.status_code == 200:
+    if response.status_code == http.HTTPStatus.OK:
         return True
     return False

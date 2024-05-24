@@ -155,11 +155,11 @@ MAX_FORBIDDEN_WORLD_LENGTH = 100
 MAX_PAYMENT_STATUS_LENGTH = 20
 MAX_CURRENCY_LENGTH = 10
 
-CLOUDPAYMET_CHOICES = [("success", "Успешно"), ("failure", "Ошибка")]
-# TODO Необходимо разместить PUBLIC_ID, API_SECRET
-CLOUDPAYMETS_PUBLIC_ID = "cloudpayments_public_id"
-CLOUDPAYMETS_API_SECRET = "cloudpayments_api_secret"
-CLOUDPAYMETS_API_TEST_URL = "https://api.cloudpayments.ru/test"
+CLOUDPAYMENTS_CHOICES = [("success", "Успешно"), ("failure", "Ошибка")]
+# TODO Необходимо разместить PUBLIC_ID, API_SECRET в SECRETS
+CLOUDPAYMENTS_PUBLIC_ID = "cloudpayments_public_id"
+CLOUDPAYMENTS_API_SECRET = "cloudpayments_api_secret"
+CLOUDPAYMENTS_API_TEST_URL = "https://api.cloudpayments.ru/test"
 
 MAX_PAYMENT_ID_LENGTH = 100
 MAX_PAYMENT_STATUS_LENGTH = 100
