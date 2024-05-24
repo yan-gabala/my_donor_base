@@ -4,23 +4,17 @@ from django.conf import settings
 
 def send_payment_email(recipient_email, message):
     """Sending message via Unisender method."""
-    sender_email = settings.DEFAULT_FROM_EMAIL
-    subject = "Payment information"
-    sender_name = "Vasya Pupkin"  # нужно прописать в настройках
-    api_key = settings.UNISENDER_API_KEY
-    list_id = 1
-
-    url = settings.UNISENDER_SENDEMAIL_URL
+    url = settings.DEFAULT_CONF["base_url"]
 
     data = {
-        "api_key": api_key,
+        "api_key": settings.DEFAULT_CONF["api_key"],
         "format": "json",
         "email": recipient_email,
-        "sender_email": sender_email,
-        "sender_name": sender_name,
-        "subject": subject,
+        "sender_email": settings.DEFAULT_FROM_EMAIL,
+        "sender_name": settings.UNISENDER_SENDER_NAME,
+        "subject": "Payment information",
         "body": message,
-        "list_id": list_id,
+        "list_id": 1,
     }
 
     response = requests.post(url, data=data)

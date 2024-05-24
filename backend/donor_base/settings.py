@@ -170,3 +170,7 @@ DEFAULT_CONF = {
     "api_key": None,
     "platform": None,
 }
+
+# TODO: добавить переменные:
+# DEFAULT_FROM_EMAIL
+# UNISENDER_SENDER_NAME
