@@ -163,3 +163,10 @@ CLOUDPAYMENTS_API_TEST_URL = "https://api.cloudpayments.ru/test"
 MAX_PAYMENT_ID_LENGTH = 100
 MAX_PAYMENT_STATUS_LENGTH = 100
 MAX_USER_COMMENT_LENGTH = 100
+DEFAULT_CONF = {
+    "base_url": "https://api.unisender.com",
+    "lang": "en",
+    "format": "json",
+    "api_key": None,
+    "platform": None,
+}
