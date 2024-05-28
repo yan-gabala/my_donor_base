@@ -11,7 +11,7 @@ class CloudPayment(BaseModelDonation):
 
     payment_status = models.CharField(
         max_length=settings.MAX_PAYMENT_STATUS_LENGTH,
-        choices=settings.CLOUDPAYMET_CHOICES,
+        choices=settings.CLOUDPAYMENTS_CHOICES,
         verbose_name="Статус платежа",
     )
     currency = models.CharField(
