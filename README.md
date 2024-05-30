@@ -83,6 +83,55 @@ http://www.rabbitmq.com/download.html
 ```
 </details>
 
+
+### Переменные окружения
+В репозиторий добавлены следующие переменные окружения:
+
+#### Настройки Django:
+DJANGO_SECRET_KEY - Секретный ключ Django-проекта в settings.py.
+
+DEBUG - настройка переменной DEBUG в settings.py
+
+ALLOWED_HOSTS - список разрешённых хостов.
+
+#### БД:
+
+DB_NAME - имя базы данных
+
+DB_USER - имя пользователя, который будет использоваться для входа в базу данных PostgreSQL.
+
+DB_PASSWORD - пароль пользователя к базе данных.
+
+DB_HOST - адрес, по которому Django будет соединяться с базой данных.
+
+DB_PORT -  порт, по которому Django будет обращаться к базе данных.
+
+DB_ENGINE - движок базы данных.
+
+#### Сервер:
+
+SSH_KEY - закрытый SSH-ключ от сервера.
+
+SSH_PASSPHRASE - пароль для ssh-ключа.
+
+HOST - адрес хоста (IP-адрес сервера).
+
+HOST_USER - имя пользователя на сервере.
+
+#### Переменные для интеграции с другими сервисами:
+
+UNISENDER_API_KEY - ключ от Unisender.
+
+UNISENDER_SENDER_NAME - имя отправителя рассылочных писем.
+
+DEFAULT_FROM_EMAIL - e-mail, с которого будут отправляться сообщения.
+
+CLOUDPAYMENTS_PUBLIC_ID - public_id из личного кабинета Cloudpayments.
+
+CLOUDPAYMENTS_API_SECRET - API-ключ из личного кабинета Cloudpayments.
+
+STRIPE_API_KEY - API-ключ от Stripe.
+
 ### Cloudpayment
 Интернет-эйквайринг, позволяющий получать платежи онлайн с помощью банковской карты или различными методами  быстрой
 оплаты.
