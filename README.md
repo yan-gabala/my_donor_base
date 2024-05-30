@@ -111,7 +111,7 @@ https://cloudpayments.ru/integration
     <summary><b>Подробнее о сервисе</b></summary>
 
 ```shell
-https://api.stripe.com
+https://docs.stripe.com/api
 ```
 </details>
 
