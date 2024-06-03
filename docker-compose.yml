@@ -1,8 +1,7 @@
-version: '3'
+version: '3.8'
 
 volumes:
   pg_data:
-  static:
 
 services:
   db:
@@ -11,23 +10,14 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
     restart: always
+    ports:
+      - 5432:5432
 
   backend:
     build: ./backend/
     env_file: .env
-    volumes:
-      - static:/static/
     depends_on:
       - db
     restart: on-failure
-
-  gateway:
-    build: ./nginx/
-    env_file: .env
     ports:
-      - 8000:80
-    volumes:
-      - static:/static
-    depends_on:
-      - backend
-    restart: always
+      - 8000:8000
