@@ -157,8 +157,13 @@ MAX_EMAIL_LENGTH = 255
 MAX_SUBJECT_LENGTH = 255
 MAX_FORBIDDEN_WORLD_LENGTH = 100
 MAX_CURRENCY_LENGTH = 10
+MAX_PAYMENT_OPERATOR_LENGTH = 250
 
-CLOUDPAYMET_CHOICES = [("success", "Успешно"), ("failure", "Ошибка")]
+CLOUDPAYMENTS_CHOICES = [("success", "Успешно"), ("failure", "Ошибка")]
+# TODO Необходимо разместить PUBLIC_ID, API_SECRET в SECRETS
+CLOUDPAYMENTS_PUBLIC_ID = "cloudpayments_public_id"
+CLOUDPAYMENTS_API_SECRET = "cloudpayments_api_secret"
+CLOUDPAYMENTS_API_TEST_URL = "https://api.cloudpayments.ru/test"
 
 MAX_PAYMENT_ID_LENGTH = 100
 MAX_PAYMENT_STATUS_LENGTH = 100
@@ -169,8 +174,4 @@ DEFAULT_CONF = {
     "format": "json",
     "api_key": None,
     "platform": None,
-}
-
-# TODO: добавить переменные:
-# DEFAULT_FROM_EMAIL
-# UNISENDER_SENDER_NAME
+  
