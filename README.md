@@ -197,3 +197,52 @@ https://docs.stripe.com/api/payment_intents/list
 - если статус "rejected" - платеж отклонен, пользователю уходит письмо через Unisender
 - если не сработали маркеры "created" и "rejected" - платеж обновлен, пользователю уходит письмо через Unisender
 - В ином случае - платеж прошел, пользователю уходит письмо через Unisender.
+
+
+### Интеграция с Unisender API
+Django-проект donor_base настроен на автоматическую отправку приветственных писем и писем при отклоненном платеже. Этот функционал реализован через специальный интерфейс для разработчиков Unisender API.
+В окружение необходимо установить библиотеку requests.
+
+<details>
+    <summary><b>Подробнее о сервисе</b></summary>
+
+```shell
+https://www.unisender.com/ru/support/api/common/bulk-email/
+```
+</details>
+
+Базовые настройки интеграции с Unisender API описаны в конфигурационном файле проекта:
+```python
+DEFAULT_CONF = {
+        "base_url": "https://api.unisender.com",
+        "lang": "en",
+        'format': 'json',
+        "api_key": None,
+        'platform': None,
+    }
+```
+Для получения "api_key" потребуется регистрация в сервисе Unisender, сгенерированный ключ станет доступен в настройках аккаунта.
+
+Подпапка проекта donor_base это базовая директория нашего проекта. В ней в файле unisender_client.py расположен клиент для низкоуровнего доступа к Unisender API. Существующая интеграция реализует метод «import_contacts»:
+```python
+cl = Client(
+    api_key=os.getenv("UNISENDER_API_KEY"),
+    platform="donor_base",
+)
+method = "import_contacts"
+data_unisender = {
+    "field_names": ["email", "Name", "email_list_ids"],
+    "data": [],
+    "overwrite_lists": 1,
+}
+```
+Источник импорта контактов модель Contact приложения contacts:
+```python
+cont = Contact.objects.all()
+data = []
+for x in cont:
+    donor_contact = [x.email, x.username, "Oldest_donors"]
+    data.append(donor_contact)
+data_unisender["data"] = data
+```
+[Другие методы Unisender API](https://www.unisender.com/ru/support/api/api)
