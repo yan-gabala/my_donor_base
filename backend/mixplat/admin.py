@@ -20,9 +20,9 @@ class DonationAdmin(admin.ModelAdmin):
         "payment_id",
         "status",
         "user_account_id",
-        "user_comment",
         "date_created",
         "date_processed",
+        "payment_operator",
     )
     empty_value_display = settings.EMPTY_VALUE
-    list_filter = ("pub_date",)
+    list_filter = ("-pub_date", "payment_status")
