@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "forbiddenwords.apps.ForbiddenwordsConfig",
     "cloudpayments.apps.CloudpaymentsConfig",
     "mixplat.apps.MixplatConfig",
+    "acquiring.apps.AcquiringConfig",
 ]
 
 MIDDLEWARE = [
@@ -35,6 +36,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 AUTH_USER_MODEL = "contacts.Contact"
@@ -81,16 +83,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",  # noqa
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",  # noqa: E501
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",  # noqa
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",  # noqa: E501
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",  # noqa
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",  # noqa: E501
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",  # noqa
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",  # noqa: E501
     },
 ]
 
@@ -105,7 +107,7 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",  # noqa
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",  # noqa: E501
     "PAGE_SIZE": 3,
 }
 
@@ -125,6 +127,8 @@ CELERY_TIMEZONE = "Europe/Moscow"
 CELERY_TASK_TRACK_STARTED = True
 
 CELERY_TASK_TIME_LIMIT = 30 * 60
+
+STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
 
 # Константы проекта
 
@@ -153,6 +157,7 @@ MAX_EMAIL_LENGTH = 255
 MAX_SUBJECT_LENGTH = 255
 MAX_FORBIDDEN_WORLD_LENGTH = 100
 MAX_CURRENCY_LENGTH = 10
+MAX_PAYMENT_OPERATOR_LENGTH = 250
 
 CLOUDPAYMENTS_CHOICES = [("success", "Успешно"), ("failure", "Ошибка")]
 # TODO Необходимо разместить PUBLIC_ID, API_SECRET в SECRETS
@@ -169,4 +174,4 @@ DEFAULT_CONF = {
     "format": "json",
     "api_key": None,
     "platform": None,
-}
+  

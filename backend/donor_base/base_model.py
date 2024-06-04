@@ -38,6 +38,27 @@ class BaseModelDonation(models.Model):
         auto_now_add=True,
         verbose_name="Дата публикации пожертвования",
     )
+    payment_id = models.CharField(
+        max_length=settings.MAX_PAYMENT_ID_LENGTH,
+        verbose_name="Идентификатор платежа",
+    )
+    status = models.CharField(
+        max_length=settings.MAX_PAYMENT_STATUS_LENGTH,
+        verbose_name="Статус платежа",
+    )
+    user_account_id = models.PositiveIntegerField(
+        verbose_name="Идентификатор пользователя",
+    )
+    date_created = models.DateTimeField(
+        verbose_name="Дата создания платежа",
+    )
+    date_processed = models.DateTimeField(
+        verbose_name="Дата обработки платежа",
+    )
+    payment_operator = models.CharField(
+        max_length=settings.MAX_PAYMENT_OPERATOR_LENGTH,
+        verbose_name="Платежный оператор",
+    )
 
     class Meta:
         abstract = True
