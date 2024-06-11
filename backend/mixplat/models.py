@@ -6,6 +6,6 @@ class MixPlat(BaseModelDonation):
     """Модель платежа Mixplat."""
 
     class Meta:
-        ordering = ("-pub_date", "payment_status")
+        ordering = ("-pub_date", "status")
         verbose_name = "Платеж Mixplat"
         verbose_name_plural = "Платежы Mixplat"

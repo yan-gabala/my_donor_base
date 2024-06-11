@@ -25,4 +25,4 @@ class CloudPaymentAdmin(admin.ModelAdmin):
         "payment_operator",
     )
     empty_value_display = settings.EMPTY_VALUE
-    list_filter = ("-pub_date", "payment_status")
+    list_filter = ("pub_date", "status")
