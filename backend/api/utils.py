@@ -28,9 +28,9 @@ def mixplat_request_handler(request):
             payment_id=request.data["payment_id"],
             status=request.data["status"],
             user_account_id=request.data["user_account_id"],
-            user_comment=request.data["user_comment"],
             date_created=string_to_date(request.data["date_created"]),
             date_processed=string_to_date(request.data["date_processed"]),
+            payment_operator="mixplat",
         )
         contact_obj_dict = dict(
             username=request.data["user_name"],

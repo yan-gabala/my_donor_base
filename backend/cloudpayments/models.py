@@ -7,6 +7,6 @@ class CloudPayment(BaseModelDonation):
     """
 
     class Meta:
-        ordering = ("-pub_date", "payment_status")
+        ordering = ("-pub_date", "status")
         verbose_name = "Пожертвование Cloudpayment"
         verbose_name_plural = "Пожертвования Cloudpayment"
