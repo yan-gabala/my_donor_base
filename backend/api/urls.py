@@ -7,6 +7,7 @@ from .views import (
     ForbiddenwordViewSet,
     CloudPaymentsViewSet,
     MixplatViewSet,
+    PaymentsListView,
 )
 
 app_name = "api"
@@ -23,4 +24,5 @@ router_v1.register("mixplat", MixplatViewSet, basename="mixplat")
 
 urlpatterns = [
     path("", include(router_v1.urls)),
+    path("", PaymentsListView.as_view(), name="payments-list"),
 ]

@@ -174,4 +174,4 @@ DEFAULT_CONF = {
     "format": "json",
     "api_key": None,
     "platform": None,
-  
+}

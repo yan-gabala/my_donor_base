@@ -1,4 +1,5 @@
 # Модуль представлений проекта.
+from django.views.generic import ListView
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -15,6 +16,7 @@ from .utils import mixplat_request_handler, get_cloudpayment_data
 from contacts.models import Contact
 from forbiddenwords.models import ForbiddenWord
 from mixplat.models import MixPlat
+from cloudpayments.models import CloudPayment
 
 
 class ContactViewSet(viewsets.ModelViewSet):
@@ -65,3 +67,16 @@ class CloudPaymentsViewSet(viewsets.GenericViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PaymentsListView(ListView):
+    model = None
+
+    def get_queryset(self):
+        mixplat_payments = MixPlat.objects.all()
+        cloudpayment_payments = CloudPayment.objects.all()
+
+        all_payments_list = mixplat_payments.union(cloudpayment_payments)
+        all_payments_list = all_payments_list.order_by("-pub_date")
+
+        return all_payments_list
