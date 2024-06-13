@@ -56,7 +56,7 @@ class CloudPaymentsViewSet(viewsets.GenericViewSet):
         Создание экзепмляра Cloudpayment.
         """
         # TODO: Добавить настройку разрешений:
-        #  - создание записи только при запросе от сервиса Stripe,
+        #  - создание записи только при запросе от сервиса Cloudpayments,
         #  - просмотр, удаление - только админам
         serializer = CloudpaymentsSerializer(
             data=get_cloudpayment_data(request)

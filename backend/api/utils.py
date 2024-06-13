@@ -58,14 +58,22 @@ def mixplat_request_handler(request):
 
 def get_cloudpayment_data(request):
     """Формирование данных для сериалайзера CloudpaymentsSerializer."""
-    data = {
-        "email": request.data.get("receipt_email"),
-        "donat": request.data.get("amount"),
-        "payment_method": request.data.get("payment_method"),
-        "payment_status": request.data.get("status"),
-        "currency": request.data.get("currency"),
-    }
-    return data
+    # Предлполагаем, что request.data содержит json-объект,
+    # т.е. ответ сервиса Cloudpayments при запросе на создании платежа.
+    if isinstance(request.data, dict) and "Model" in request.data:
+        model = request.data["Model"][0]
+        data = {
+            "email": model.get("Email"),
+            "donat": model.get("Amount"),
+            "date_created": model.get("CreatedDateIso"),
+            "date_processed": model.get("ConfirmDateIso"),
+            "payment_id": model.get("TransactionId"),
+            "status": model.get("Status"),
+            "payments_operator": model.get("Issuer"),
+            "currency": model.get("Currency"),
+        }
+        return data
+    raise ValueError("Неправильная структура request.data")
 
 
 def check_cloudpayments_connection():

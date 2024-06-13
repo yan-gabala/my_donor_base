@@ -159,7 +159,6 @@ MAX_FORBIDDEN_WORLD_LENGTH = 100
 MAX_CURRENCY_LENGTH = 10
 MAX_PAYMENT_OPERATOR_LENGTH = 250
 
-CLOUDPAYMENTS_CHOICES = [("success", "Успешно"), ("failure", "Ошибка")]
 # TODO Необходимо разместить PUBLIC_ID, API_SECRET в SECRETS
 CLOUDPAYMENTS_PUBLIC_ID = "cloudpayments_public_id"
 CLOUDPAYMENTS_API_SECRET = "cloudpayments_api_secret"
@@ -174,4 +173,4 @@ DEFAULT_CONF = {
     "format": "json",
     "api_key": None,
     "platform": None,
-  
+}
