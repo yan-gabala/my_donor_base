@@ -31,6 +31,7 @@ def mixplat_request_handler(request):
             date_created=string_to_date(request.data["date_created"]),
             date_processed=string_to_date(request.data["date_processed"]),
             payment_operator="mixplat",
+            currency=request.data["currency"],
         )
         contact_obj_dict = dict(
             username=request.data["user_name"],
