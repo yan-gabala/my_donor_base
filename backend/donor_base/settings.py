@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     "forbiddenwords.apps.ForbiddenwordsConfig",
     "cloudpayments.apps.CloudpaymentsConfig",
     "mixplat.apps.MixplatConfig",
-    "acquiring.apps.AcquiringConfig",
 ]
 
 MIDDLEWARE = [
@@ -128,7 +127,6 @@ CELERY_TASK_TRACK_STARTED = True
 
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
-STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
 
 # Константы проекта
 
@@ -159,7 +157,10 @@ MAX_FORBIDDEN_WORLD_LENGTH = 100
 MAX_CURRENCY_LENGTH = 10
 MAX_PAYMENT_OPERATOR_LENGTH = 250
 
-CLOUDPAYMENTS_CHOICES = [("success", "Успешно"), ("failure", "Ошибка")]
+CLOUDPAYMENTS_CHOICES = [
+    ("success", "Успешно"),
+    ("failure", "Ошибка"),
+]  # как будто можно убрать
 # TODO Необходимо разместить PUBLIC_ID, API_SECRET в SECRETS
 CLOUDPAYMENTS_PUBLIC_ID = "cloudpayments_public_id"
 CLOUDPAYMENTS_API_SECRET = "cloudpayments_api_secret"
