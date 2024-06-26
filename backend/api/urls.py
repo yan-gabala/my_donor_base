@@ -24,5 +24,5 @@ router_v1.register("mixplat", MixplatViewSet, basename="mixplat")
 
 urlpatterns = [
     path("", include(router_v1.urls)),
-    path("", PaymentsListView.as_view(), name="payments-list"),
+    path("payments/", PaymentsListView.as_view(), name="payments_list"),
 ]

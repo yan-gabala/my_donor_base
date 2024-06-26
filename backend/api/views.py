@@ -1,5 +1,6 @@
 # Модуль представлений проекта.
-from django.views.generic import ListView
+from django.http import JsonResponse
+from django.views import View
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -69,14 +70,16 @@ class CloudPaymentsViewSet(viewsets.GenericViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class PaymentsListView(ListView):
+class PaymentsListView(View):
     model = None
 
-    def get_queryset(self):
+    def get(self, request, *args, **kwargs):
         mixplat_payments = MixPlat.objects.all()
         cloudpayment_payments = CloudPayment.objects.all()
 
         all_payments_list = mixplat_payments.union(cloudpayment_payments)
         all_payments_list = all_payments_list.order_by("-pub_date")
 
-        return all_payments_list
+        payments_data = list(all_payments_list.values())
+
+        return JsonResponse({"payments_list": payments_data})
