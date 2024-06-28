@@ -1,3 +1,4 @@
+# Модуль модели платежей Cloudpayments
 from donor_base.base_model import BaseModelDonation
 
 
