@@ -89,3 +89,26 @@ def check_cloudpayments_connection():
     if response.status_code == http.HTTPStatus.OK:
         return True
     return False
+
+
+def send_payment_email(email, message):
+    """Sending message via Unisender method."""
+    url = settings.DEFAULT_CONF["base_url"]
+
+    data = {
+        "api_key": settings.DEFAULT_CONF["api_key"],
+        "format": "json",
+        "email": email,
+        "sender_email": settings.DEFAULT_FROM_EMAIL,
+        "sender_name": settings.UNISENDER_SENDER_NAME,
+        "subject": "Payment information",
+        "body": message,
+        "list_id": 1,
+    }
+
+    response = requests.post(url, data=data)
+
+    if response.status_code != 200:
+        print(f"Ошибка при отправке сообщения: {response.status_code}")
+    else:
+        print("Сообщение успешно отправлено")
