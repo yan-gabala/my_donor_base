@@ -2,7 +2,7 @@ name : Main Crisis-center Workflow
 on:
   push:
     branches:
-      - develop
+      - main
 jobs:
   tests:
     runs-on: ubuntu-latest
