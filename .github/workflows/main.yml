@@ -74,7 +74,6 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.HOST_USER }}
           key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
           source: "./docker-compose.production.yml"
           target: "crisis-center"
       - name: Executing remote ssh commands to deploy
@@ -83,7 +82,6 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.HOST_USER }}
           key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
             cd crisis-center
             rm .env
@@ -109,4 +107,3 @@ jobs:
             sudo docker compose -f docker-compose.yml exec backend bash -c "sleep 30 && python manage.py makemigrations"
             sudo docker compose -f docker-compose.yml exec backend bash -c "sleep 30 && python manage.py migrate"
             sudo docker image prune -a -f
-
