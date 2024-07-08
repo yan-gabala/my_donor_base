@@ -2,7 +2,7 @@ name : Main Crisis-center Workflow
 on:
   push:
     branches:
-      - deploy
+      - feature/deploy
 jobs:
   tests:
     runs-on: ubuntu-latest
@@ -109,4 +109,3 @@ jobs:
             sudo docker compose -f docker-compose.yml exec backend bash -c "sleep 30 && python manage.py makemigrations"
             sudo docker compose -f docker-compose.yml exec backend bash -c "sleep 30 && python manage.py migrate"
             sudo docker image prune -a -f
-
