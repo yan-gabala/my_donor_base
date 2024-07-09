@@ -78,6 +78,9 @@ jobs:
 #          passphrase: ${{ secrets.SSH_PASSPHRASE }}
 #          source: "./docker-compose.production.yml"
 #          target: "crisis-center"
+      - name: Diagnose SSH connection to GitHub
+        run: |
+          ssh -vvv git@github.com
       - name: Executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
         with:
@@ -86,6 +89,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
+            ssh -vvv git@github.com
             cd crisis-center
             rm .env
             touch .env
