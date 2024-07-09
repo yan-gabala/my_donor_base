@@ -66,8 +66,8 @@ jobs:
       - build_backend_and_push_to_docker_hub
       - build_nginx_and_push_to_docker_hub
     steps:
-#      - name: Checkout repo
-#        uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
 #      - name: Copy docker-compose.production.yml
 #        uses: appleboy/ssh-action@master
 #        with:
