@@ -66,18 +66,18 @@ jobs:
       - build_backend_and_push_to_docker_hub
       - build_nginx_and_push_to_docker_hub
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-      - name: Copy docker-compose.production.yml
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.HOST_USER }}
+#      - name: Checkout repo
+#        uses: actions/checkout@v3
+#      - name: Copy docker-compose.production.yml
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.HOST }}
+#          username: ${{ secrets.HOST_USER }}
 #          key: ${{ secrets.SSH_KEY }}
-          password: ${{ secrets.SSH_PASSWORD }}
+#          password: ${{ secrets.SSH_PASSWORD }}
 #          passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          source: "./docker-compose.production.yml"
-          target: "crisis-center"
+#          source: "./docker-compose.production.yml"
+#          target: "crisis-center"
       - name: Executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
         with:
