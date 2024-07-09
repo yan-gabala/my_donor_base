@@ -74,7 +74,8 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.HOST_USER }}
           key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          password: ${{ secrets.SSH_PASSWORD }}
+#          passphrase: ${{ secrets.SSH_PASSPHRASE }}
           source: "./docker-compose.production.yml"
           target: "crisis-center"
       - name: Executing remote ssh commands to deploy
