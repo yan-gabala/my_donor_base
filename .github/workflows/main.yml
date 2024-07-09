@@ -82,8 +82,8 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.HOST_USER }}
-#          key: ${{ secrets.SSH_KEY }}
-#          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
             cd crisis-center
             rm .env
