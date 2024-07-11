@@ -88,19 +88,19 @@ jobs:
         ssh-keyscan 45.144.31.245 >> ~/.ssh/known_hosts
 
     - name: Pull GitHub develop branch
-      run: ssh vitalii_user@45.144.31.245 "cd nko && git checkout feature/deploy && git pull"
+      run: ssh ${{ secrets.HOST_USER }}@45.144.31.245 "cd nko && git checkout feature/deploy && git pull"
 
-    - name: Executing remote ssh commands to deploy
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.HOST_USER }}
-        key: ${{ secrets.SSH_KEY }}
-        passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        script: |
-          cd nko
-          rm .env
-          touch .env
+#    - name: Executing remote ssh commands to deploy
+#      uses: appleboy/ssh-action@master
+#      with:
+#        host: ${{ secrets.HOST }}
+#        username: ${{ secrets.HOST_USER }}
+#        key: ${{ secrets.SSH_KEY }}
+#        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+#        script: |
+#          cd nko
+#          rm .env
+#          touch .env
 #          echo SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} >> .env
 #          echo DEBUG=${{ secrets.DEBUG }}
 #          echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
