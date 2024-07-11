@@ -88,7 +88,7 @@ jobs:
         ssh-keyscan 45.144.31.245 >> ~/.ssh/known_hosts
 
     - name: Pull GitHub develop branch
-      run: ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd nko && git checkout feature/deploy && git pull"
+      run: ssh ${{ secrets.HOST_USER }}@45.144.31.245 "cd nko && git checkout feature/deploy && git pull"
 
 #    - name: Executing remote ssh commands to deploy
 #      uses: appleboy/ssh-action@master
