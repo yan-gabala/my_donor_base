@@ -87,7 +87,7 @@ jobs:
         mkdir -p ~/.ssh
         ssh-keyscan 45.144.31.245 >> ~/.ssh/known_hosts
 
-    - name: Pull GitHub develop branch
+    - name: Pull repo develop branch
       run: ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd nko && git checkout feature/deploy && git pull"
 
 #    - name: Executing remote ssh commands to deploy
