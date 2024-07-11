@@ -13,8 +13,8 @@ services:
     restart: always
 
   backend:
-    image: amadeus161/crisis-center_backend:latest
-    # build: ./backend/
+#    image: amadeus161/crisis-center_backend:latest
+    build: ./backend/
     env_file: .env
     volumes:
       - static:/app/static/
@@ -24,7 +24,7 @@ services:
 
   nginx:
     image: amadeus161/crisis-center_nginx:latest
-    # build: ./nginx/
+    build: ./nginx/
     env_file: .env
     ports:
       - 8000:80

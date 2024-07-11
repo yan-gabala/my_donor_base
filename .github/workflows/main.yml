@@ -88,7 +88,7 @@ jobs:
         ssh-keyscan 45.144.31.245 >> ~/.ssh/known_hosts
 
     - name: Check ssh-connection
-      run: ssh vitalii_user@45.144.31.245 "cd crisis-center && git clone git@github.com:nko-nzhkc/nko.git"
+      run: ssh vitalii_user@45.144.31.245 "cd crisis-center && git clone git@github.com:nko-nzhkc/nko.git && gil checkout develop"
 
 #    - name: Copy files via SCP
 #      uses: appleboy/scp-action@master
