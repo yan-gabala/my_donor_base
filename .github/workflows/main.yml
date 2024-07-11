@@ -90,28 +90,17 @@ jobs:
     - name: Pull GitHub develop branch
       run: ssh vitalii_user@45.144.31.245 "cd nko && git checkout feature/deploy && git pull"
 
-#    - name: Copy files via SCP
-#      uses: appleboy/scp-action@master
-#      with:
-#        host: ${{ secrets.HOST }}
-##        username: ${{ secrets.HOST_USER }}
-#        username: vitalii_user
-#        key: ${{ secrets.DEPLOY_KEY }}
-#        port: ${{ secrets.PORT }}
-#        source: "./docker-compose.production.yml"
-#        target: "./"
-
-#    - name: Executing remote ssh commands to deploy
-#      uses: appleboy/ssh-action@master
-#      with:
-#        host: ${{ secrets.HOST }}
-#        username: ${{ secrets.HOST_USER }}
-#        key: ${{ secrets.SSH_KEY }}
-#        passphrase: ${{ secrets.SSH_PASSPHRASE }}
-#        script: |
-#          cd crisis-center
-#          rm .env
-#          touch .env
+    - name: Executing remote ssh commands to deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.HOST_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        script: |
+          cd nko
+          rm .env
+          touch .env
 #          echo SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} >> .env
 #          echo DEBUG=${{ secrets.DEBUG }}
 #          echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
@@ -121,7 +110,6 @@ jobs:
 #          echo POSTGRES_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
 #          echo DB_HOST=${{ secrets.DB_HOST }} >> .env
 #          echo DB_PORT=${{ secrets.DB_PORT }} >> .env
-#          echo STRIPE_API_KEY=${{ secrets.STRIPE_API_KEY }} >> .env
 #          echo CLOUDPAYMENTS_PUBLIC_ID=${{ secrets.CLOUDPAYMENTS_PUBLIC_ID }} >> .env
 #          echo CLOUDPAYMENTS_API_SECRET=${{ secrets.CLOUDPAYMENTS_API_SECRET }} >> .env
 #          echo UNISENDER_API_KEY=${{ secrets.UNISENDER_API_KEY }} >> .env
@@ -132,5 +120,4 @@ jobs:
 #          sudo docker compose -f docker-compose.production.yml up -d
 #          sudo docker compose -f docker-compose.yml exec backend bash -c "sleep 30 && python manage.py makemigrations"
 #          sudo docker compose -f docker-compose.yml exec backend bash -c "sleep 30 && python manage.py migrate"
-
 #          sudo docker image prune -a -f
