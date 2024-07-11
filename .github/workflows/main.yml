@@ -134,21 +134,21 @@ jobs:
     - name: Display ssh-agent status
       run: ssh-add -l
 
-    - name: Add known_hosts
-      run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan 45.144.31.245 >> ~/.ssh/known_hosts
+#    - name: Add known_hosts
+#      run: |
+#        mkdir -p ~/.ssh
+#        ssh-keyscan 45.144.31.245 >> ~/.ssh/known_hosts
 
-    - name: Hui
-      run: ssh vitalii_user@45.144.31.245 "cd crisis-center && mkdir pisya"
+#    - name: Hui
+#      run: ssh vitalii_user@45.144.31.245 "cd crisis-center && mkdir pisya"
 
-#    - name: Copy files via SCP
-#      uses: appleboy/scp-action@master
-#      with:
-#        host: ${{ secrets.HOST }}
-##        username: ${{ secrets.HOST_USER }}
-#        username: vitalii_user
-#        key: ${{ secrets.DEPLOY_KEY }}
-#        port: ${{ secrets.PORT }}
-#        source: "./docker-compose.production.yml"
-#        target: "./"
+    - name: Copy files via SCP
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.HOST }}
+#        username: ${{ secrets.HOST_USER }}
+        username: vitalii_user
+        key: ${{ secrets.DEPLOY_KEY }}
+        port: ${{ secrets.PORT }}
+        source: "./docker-compose.production.yml"
+        target: "./"
