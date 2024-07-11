@@ -13,8 +13,8 @@ services:
     restart: always
 
   backend:
-#    image: amadeus161/crisis-center_backend:latest
-    build: ./backend/
+    image: amadeus161/crisis-center_backend:latest
+#    build: ./backend/
     env_file: .env
     volumes:
       - static:/app/static/

@@ -90,6 +90,8 @@ jobs:
     - name: Pull repo develop branch
       run: ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd nko && git checkout feature/deploy && git pull"
 
+    - name: Restart project using ss
+      run: ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd nko && rm .env && touch .env && echo SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} >> .env"
 #    - name: Executing remote ssh commands to deploy
 #      uses: appleboy/ssh-action@master
 #      with:
