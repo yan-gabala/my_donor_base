@@ -139,7 +139,7 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
 #        username: ${{ secrets.HOST_USER }}
-        username: vitalii
+        username: vitalii_user
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.PORT }}
         source: "./docker-compose.production.yml"
