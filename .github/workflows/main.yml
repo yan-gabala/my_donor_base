@@ -92,7 +92,7 @@ jobs:
 
     - name: Restart project using ss
       run: |
-        ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd nko && rm .env && touch .env && \
+        ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd nko && sudo rm .env && sudo touch .env && \
         echo SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} >> .env && \
         echo DEBUG=${{ secrets.DEBUG }} >> .env && \
         echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env && \
