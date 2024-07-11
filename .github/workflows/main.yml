@@ -85,7 +85,7 @@ jobs:
     - name: Add known_hosts
       run: |
         mkdir -p ~/.ssh
-        ssh-keyscan {{ secrets.HOST }} >> ~/.ssh/known_hosts
+        ssh-keyscan ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
     - name: Pull repo develop branch
       run: ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd nko && git checkout feature/deploy && git pull"
