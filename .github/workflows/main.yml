@@ -134,10 +134,10 @@ jobs:
     - name: Display ssh-agent status
       run: ssh-add -l
 
-#    - name: Add known_hosts
-#      run: |
-#        mkdir -p ~/.ssh
-#        ssh-keyscan 45.144.31.245 >> ~/.ssh/known_hosts
+    - name: Add known_hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan 45.144.31.245 >> ~/.ssh/known_hosts
 
     - name: Newdir
       run: ssh vitalii_user@45.144.31.245 "cd crisis-center && mkdir newdir2"
