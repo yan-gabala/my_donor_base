@@ -88,7 +88,7 @@ jobs:
         ssh-keyscan 45.144.31.245 >> ~/.ssh/known_hosts
 
     - name: Pull GitHub develop branch
-      run: ssh vitalii_user@45.144.31.245 "cd crisis-center && git fetch origin feature/deploy && git checkout feature/deploy && git pull"
+      run: ssh vitalii_user@45.144.31.245 "cd crisis-center && git fetch feature/deploy && git checkout feature/deploy && git pull"
 
 #    - name: Copy files via SCP
 #      uses: appleboy/scp-action@master
