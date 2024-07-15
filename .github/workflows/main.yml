@@ -110,6 +110,6 @@ jobs:
         sudo docker compose -f docker-compose.production.yml pull && \
         sudo docker compose -f docker-compose.production.yml down && \
         sudo docker compose -f docker-compose.production.yml up -d"
-#        sudo docker compose -f docker-compose.production.yml exec backend bash -c "python manage.py makemigrations" && \
-#        sudo docker compose -f docker-compose.production.yml exec backend bash -c "sleep 30 && python manage.py migrate" && \
-#        sudo docker image prune -a -f"
+        sudo docker compose -f docker-compose.production.yml exec backend bash -c "python manage.py makemigrations" && \
+        sudo docker compose -f docker-compose.production.yml exec backend bash -c "sleep 30 && python manage.py migrate" && \
+        sudo docker image prune -a -f"
