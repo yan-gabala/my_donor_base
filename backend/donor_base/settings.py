@@ -60,7 +60,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "donor_base.wsgi.application"
 
-# sqlite3
+# # sqlite3
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.sqlite3",
@@ -158,8 +158,8 @@ MAX_CURRENCY_LENGTH = 10
 MAX_PAYMENT_OPERATOR_LENGTH = 250
 
 # TODO Необходимо разместить PUBLIC_ID, API_SECRET в SECRETS
-CLOUDPAYMENTS_PUBLIC_ID = "cloudpayments_public_id"
-CLOUDPAYMENTS_API_SECRET = "cloudpayments_api_secret"
+CLOUDPAYMENTS_PUBLIC_ID = os.getenv("CLOUDPAYMENTS_PUBLIC_ID")
+CLOUDPAYMENTS_API_SECRET = os.getenv("CLOUDPAYMENTS_API_SECRET")
 CLOUDPAYMENTS_API_TEST_URL = "https://api.cloudpayments.ru/test"
 
 MAX_PAYMENT_ID_LENGTH = 100
