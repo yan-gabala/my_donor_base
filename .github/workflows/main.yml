@@ -2,7 +2,9 @@ name : Main Crisis-center Workflow
 on:
   push:
     branches:
-      - feature/deploy
+      - develop
+#  pull_request:
+#    types: [closed]
 
 jobs:
   tests:
@@ -88,7 +90,7 @@ jobs:
         ssh-keyscan ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
     - name: Pull repo develop branch
-      run: ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd nko && git checkout feature/deploy && git pull"
+      run: ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd nko && git checkout develop && git pull"
 
     - name: Restart project using ssh
       run: |
