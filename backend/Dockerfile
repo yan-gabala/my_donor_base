@@ -2,7 +2,7 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-RUN pip3 install gunicorn==21.0.1
+RUN pip install gunicorn==21.0.1
 
 COPY requirements.txt .
 
