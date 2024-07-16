@@ -26,6 +26,12 @@ class ContactViewSet(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
 
+    @action(detail=False, url_path="get_contacts", methods=("post",))
+    def get_contacts(self, request):
+        """Метод получения контактов от Unisender."""
+        # проверка ручки, что живая из постман.
+        return Response(dict(result="ok"), status=status.HTTP_200_OK)
+
 
 class ForbiddenwordViewSet(ViewListCreateMixinsSet):
     """Вьюсет запрещенных слов."""
