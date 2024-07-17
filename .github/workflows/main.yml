@@ -115,4 +115,3 @@ jobs:
         docker compose -f docker-compose.production.yml exec backend bash -c "python manage.py makemigrations" && \
         docker compose -f docker-compose.production.yml exec backend bash -c "python manage.py migrate" && \
         docker image prune -a -f"
-
