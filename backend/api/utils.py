@@ -95,7 +95,7 @@ def check_cloudpayments_connection():
 
 def send_payment_email(email, message):
     """Sending message via Unisender method."""
-    url = settings.DEFAULT_CONF["base_url"]
+    url = settings.DEFAULT_CONF["base_url"] + "/ru/api/sendEmail?format=json"
 
     data = {
         "api_key": settings.DEFAULT_CONF["api_key"],
@@ -112,5 +112,15 @@ def send_payment_email(email, message):
 
     if response.status_code != 200:
         print(f"Ошибка при отправке сообщения: {response.status_code}")
+        print(f"Ответ сервера: {response.text}")
     else:
-        print("Сообщение успешно отправлено")
+        response_data = response.json()
+        if "error" in response_data:
+            print("Ошибка при отправке сообщения:")
+            print(f"Код ошибки: {response_data['code']}")
+            print(f"Сообщение об ошибке: {response_data['error']}")
+        elif "result" in response_data:
+            print("Сообщение успешно отправлено!")
+            print(f"Email ID: {response_data['result']['email_id']}")
+        else:
+            print(f"Неизвестный ответ от сервера: {response_data}")

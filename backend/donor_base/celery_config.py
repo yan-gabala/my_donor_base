@@ -1,3 +1,5 @@
+from __future__ import absolute_import, unicode_literals
+import django
 import os
 import logging
 from celery import Celery
@@ -11,6 +13,7 @@ handler.setFormatter(formatter)
 logging.getLogger().addHandler(handler)
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "donor_base.settings")
+django.setup()
 app = Celery("donor_base")
 app.config_from_object("django.conf:settings", namespace="CELERY")
 app.autodiscover_tasks()
