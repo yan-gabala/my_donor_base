@@ -23,7 +23,6 @@ class MixPlatSerializer(serializers.ModelSerializer):
             "payment_id",
             "status",
             "user_account_id",
-            "user_comment",
             "date_created",
             "date_processed",
         )
