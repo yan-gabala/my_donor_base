@@ -149,11 +149,11 @@ def add_contacts(file_url):
             count = 0
             bulk_list = list()
             for row in file_reader:
-                if count != 0 and donor_exists(row) is False:
+                if row != "email" and donor_exists(row) is False:
                     bulk_list.append(Donor(email=row))
-                count += 1
+                    count += 1
             Donor.objects.bulk_create(bulk_list)
-            print(f"Добавленно {count - 1} контактов.")
+            print(f"Добавленно {count} контактов.")
 
         try:
             shutil.rmtree(directory)  # удаляем папку с файлом
