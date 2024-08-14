@@ -172,7 +172,7 @@ DEFAULT_CONF = {
     "base_url": "https://api.unisender.com",
     "lang": "en",
     "format": "json",
-    "api_key": None,
+    "api_key": os.getenv("UNISENDER_API_KEY"),
     "platform": None,
 }
 
