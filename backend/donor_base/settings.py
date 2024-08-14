@@ -63,7 +63,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "donor_base.wsgi.application"
 
-# # sqlite3
+# sqlite3
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.sqlite3",
@@ -176,4 +176,6 @@ DEFAULT_CONF = {
     "platform": None,
 }
 
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
+UNISENDER_SENDER_NAME = os.getenv("UNISENDER_SENDER_NAME")
 REQUEST_URL = os.getenv("REQUEST_URL")

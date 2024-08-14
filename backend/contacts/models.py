@@ -50,5 +50,9 @@ class Donor(models.Model):
         verbose_name="Электронная почта донора",
     )
 
+    class Meta:
+        verbose_name = "Донор"
+        verbose_name_plural = "Доноры"
+
     def __str__(self):
         return self.email
