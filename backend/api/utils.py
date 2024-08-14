@@ -63,7 +63,7 @@ def handling_cloudpayment_data(request):
         model = request.data["Model"][0]
         data = {
             "email": model.get("Email"),
-            "custom_donat": model.get("Amount"),
+            "donat": model.get("Amount"),
             "date_created": model.get("CreatedDateIso"),
             "date_processed": model.get("ConfirmDateIso"),
             "payment_id": model.get("TransactionId"),
@@ -107,7 +107,6 @@ def send_payment_email(email, message):
         "body": message,
         "list_id": 1,
     }
-
     response = requests.post(url, data=data)
 
     if response.status_code != status.HTTP_200_OK:

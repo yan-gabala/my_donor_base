@@ -140,14 +140,14 @@ THREE_HUNDRED = 300
 FIVE_HUNDRED = 500
 THOUSAND = 1000
 THREE_THOUSAND = 3000
-AMOUNT = [
-    (ZERO, "0"),
-    (THREE_HUNDRED, "300"),
-    (FIVE_HUNDRED, "500"),
-    (THOUSAND, "1000"),
-    (THREE_THOUSAND, "3000"),
-]
 
+# AMOUNT = [
+#     (ZERO, "0"),
+#     (THREE_HUNDRED, "300"),
+#     (FIVE_HUNDRED, "500"),
+#     (THOUSAND, "1000"),
+#     (THREE_THOUSAND, "3000"),
+# ]
 
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
