@@ -55,7 +55,7 @@ def mixplat_request_handler(request):
         )
 
 
-def get_cloudpayment_data(request):
+def handling_cloudpayment_data(request):
     """Формирование данных для сериалайзера CloudpaymentsSerializer."""
     # Предлполагаем, что request.data содержит json-объект,
     # т.е. ответ сервиса Cloudpayments при запросе на создании платежа.
@@ -68,11 +68,13 @@ def get_cloudpayment_data(request):
             "date_processed": model.get("ConfirmDateIso"),
             "payment_id": model.get("TransactionId"),
             "status": model.get("Status"),
-            "payments_operator": model.get("Issuer"),
+            "payment_operator": "Cloudpayment",
             "payment_method": model.get("CardType"),
             "user_account_id": model.get("TransactionId"),
             "currency": model.get("Currency"),
         }
+        if not donor_exists(data["email"]):
+            Donor.objects.create(email=data["email"])
         return data
     raise ValueError("Неправильная структура request.data")
 

@@ -15,7 +15,7 @@ from .serializers import (
 )
 from .utils import (
     add_contacts,
-    get_cloudpayment_data,
+    handling_cloudpayment_data,
     mixplat_request_handler,
     send_request,
 )
@@ -87,7 +87,7 @@ class CloudPaymentsViewSet(viewsets.GenericViewSet):
         #  - создание записи только при запросе от сервиса Cloudpayments,
         #  - просмотр, удаление - только админам
         serializer = CloudpaymentsSerializer(
-            data=get_cloudpayment_data(request)
+            data=handling_cloudpayment_data(request)
         )
         if serializer.is_valid():
             serializer.save()
