@@ -108,8 +108,8 @@ jobs:
         echo CLOUDPAYMENTS_API_SECRET=${{ secrets.CLOUDPAYMENTS_API_SECRET }} >> .env && \
         echo UNISENDER_API_KEY=${{ secrets.UNISENDER_API_KEY }} >> .env && \
         echo UNISENDER_SENDER_NAME=${{ secrets.UNISENDER_SENDER_NAME }} >> .env && \
-        echo DEFAULT_FROM_EMAIL=${{ secrets.DEFAULT_FROM_EMAIL }} >> .env && \
         echo REQUEST_URL=${{ secrets.REQUEST_URL }} >> .env && \
+        echo DEFAULT_FROM_EMAIL=${{ secrets.DEFAULT_FROM_EMAIL }} >> .env && \
         docker compose -f docker-compose.production.yml pull && \
         docker compose -f docker-compose.production.yml down && \
         docker compose -f docker-compose.production.yml up -d && \
