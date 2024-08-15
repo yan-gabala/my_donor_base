@@ -48,8 +48,12 @@ class ContactViewSet(viewsets.ModelViewSet):
     )
     def get_contacts(self, request):
         """Метод получения контактов от Unisender."""
-        add_contacts(request.data["result"]["file_to_download"])
-        return Response(dict(result="ok"), status=status.HTTP_200_OK)
+        return Response(
+            dict(
+                result=add_contacts(request.data["result"]["file_to_download"])
+            ),
+            status=status.HTTP_200_OK,
+        )
 
 
 class ForbiddenwordViewSet(ViewListCreateMixinsSet):

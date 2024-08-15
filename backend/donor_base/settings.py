@@ -176,6 +176,10 @@ DEFAULT_CONF = {
     "platform": None,
 }
 
+NOTIFY_URL = (
+    "&notify_url=https://foodgrampyengineer.ru/api/contacts/get_contacts/"
+)
+FIELD_NAMES = "&field_names[]=email"
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 UNISENDER_SENDER_NAME = os.getenv("UNISENDER_SENDER_NAME")
-REQUEST_URL = os.getenv("REQUEST_URL")
+REQUEST_URL = os.getenv("REQUEST_URL").format(NOTIFY_URL + FIELD_NAMES)

@@ -137,6 +137,7 @@ def add_contacts(file_url):
     """Добавление доноров в БД из файла, получаемого по ссылке."""
     response = requests.get(file_url)
     if response.status_code == status.HTTP_200_OK:
+        bulk_list = list()
         directory = "files"
         if not os.path.exists(directory):
             os.makedirs(directory)
@@ -147,16 +148,15 @@ def add_contacts(file_url):
 
         with open(file_path, encoding="utf-8") as csv_file:
             file_reader = csv.reader(csv_file, delimiter=",")
-            count = 0
-            bulk_list = list()
             for row in file_reader:
-                if row != "email" and donor_exists(row) is False:
-                    bulk_list.append(Donor(email=row))
-                    count += 1
+                if row[0] != "email" and donor_exists(row[0]) is False:
+                    bulk_list.append(Donor(email=row[0]))
             Donor.objects.bulk_create(bulk_list)
-            print(f"Добавленно {count} контактов.")
 
         try:
             shutil.rmtree(directory)  # удаляем папку с файлом
         except OSError as e:
             raise f"Error: {e.filename, e.strerror}"
+
+        return f"Добавленно {len(bulk_list)} контактов."
+    return f"Файл по ссылке не получен, код ответа {response.status_code}."
