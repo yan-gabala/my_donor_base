@@ -150,8 +150,8 @@ def add_contacts(file_url):
             count = 0
             bulk_list = list()
             for row in file_reader:
-                if row != "email" and donor_exists(row) is False:
-                    bulk_list.append(Donor(email=row))
+                if row[0] != "email" and donor_exists(row[0]) is False:
+                    bulk_list.append(Donor(email=row[0]))
                     count += 1
             Donor.objects.bulk_create(bulk_list)
             print(f"Добавленно {count} контактов.")
