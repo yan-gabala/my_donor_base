@@ -1,4 +1,5 @@
 # Модуль бизнес логики проекта.
+import base64
 import csv
 import http
 import requests
@@ -55,6 +56,24 @@ def mixplat_request_handler(request):
         )
 
 
+def check_donor_subscriptions(email):
+    """Проверка наличия подписки у донора."""
+    url = settings.CLOUDPAYMENTS_SUBSCRIPTION_FIND_URL
+    username = settings.CLOUDPAYMENTS_PUBLIC_ID
+    password = settings.CLOUDPAYMENTS_API_SECRET
+    basic_encoded = base64.b64encode(f'{username}:{password}'.encode("utf-8")).decode("utf-8")
+    headers = {
+        "Authorization": f"Basic {basic_encoded}"
+    }
+    body = {
+        "accountId": f"{email}"
+    }
+    response = requests.post(url, headers=headers, json=body)
+    if response.json()["Model"]:
+        return settings.SUBSCRIPTION_CHOICES[0][0]
+    return settings.SUBSCRIPTION_CHOICES[1][0]
+
+
 def handling_cloudpayment_data(request):
     """Формирование данных для сериалайзера CloudpaymentsSerializer."""
     # Предлполагаем, что request.data содержит json-объект,
@@ -74,7 +93,11 @@ def handling_cloudpayment_data(request):
             "currency": model.get("Currency"),
         }
         if not donor_exists(data["email"]):
-            Donor.objects.create(email=data["email"])
+            subcsription = check_donor_subscriptions(data["email"])
+            Donor.objects.create(
+                email=data["email"],
+                subcsription=subcsription
+            )
         return data
     raise ValueError("Неправильная структура request.data")
 

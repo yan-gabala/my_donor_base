@@ -18,6 +18,6 @@ class ContactAdmin(admin.ModelAdmin):
 class DonorAdmin(admin.ModelAdmin):
     """Админ зона доноров."""
 
-    list_display = ("email",)
+    list_display = ("email", "subcsription")
     empty_value_display = settings.EMPTY_VALUE
-    list_filter = ("email",)
+    list_filter = ("email", "subcsription")
