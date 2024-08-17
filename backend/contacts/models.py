@@ -49,7 +49,7 @@ class Donor(models.Model):
         validators=[forbidden_words_validator],
         verbose_name="Электронная почта донора",
     )
-    subcsription = models.TextField(
+    subscription = models.TextField(
         choices=settings.SUBSCRIPTION_CHOICES,
         verbose_name="Статус подписки у донора"
     )

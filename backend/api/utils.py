@@ -92,12 +92,11 @@ def handling_cloudpayment_data(request):
             "user_account_id": model.get("TransactionId"),
             "currency": model.get("Currency"),
         }
-        if not donor_exists(data["email"]):
-            subcsription = check_donor_subscriptions(data["email"])
-            Donor.objects.create(
-                email=data["email"],
-                subcsription=subcsription
-            )
+        subscription = check_donor_subscriptions(data["email"])
+        Donor.objects.update_or_create(
+            email=data["email"],
+            subcsription=subscription
+        )
         return data
     raise ValueError("Неправильная структура request.data")
 
