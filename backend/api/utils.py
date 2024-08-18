@@ -61,13 +61,11 @@ def check_donor_subscriptions(email):
     url = settings.CLOUDPAYMENTS_SUBSCRIPTION_FIND_URL
     username = settings.CLOUDPAYMENTS_PUBLIC_ID
     password = settings.CLOUDPAYMENTS_API_SECRET
-    basic_encoded = base64.b64encode(f'{username}:{password}'.encode("utf-8")).decode("utf-8")
-    headers = {
-        "Authorization": f"Basic {basic_encoded}"
-    }
-    body = {
-        "accountId": f"{email}"
-    }
+    basic_encoded = base64.b64encode(
+        f"{username}:{password}".encode("utf-8")
+    ).decode("utf-8")
+    headers = {"Authorization": f"Basic {basic_encoded}"}
+    body = {"accountId": f"{email}"}
     response = requests.post(url, headers=headers, json=body)
     if response.json()["Model"]:
         return settings.SUBSCRIPTION_CHOICES[0][0]
@@ -94,8 +92,7 @@ def handling_cloudpayment_data(request):
         }
         subscription = check_donor_subscriptions(data["email"])
         Donor.objects.update_or_create(
-            email=data["email"],
-            subcsription=subscription
+            email=data["email"], subcsription=subscription
         )
         return data
     raise ValueError("Неправильная структура request.data")
