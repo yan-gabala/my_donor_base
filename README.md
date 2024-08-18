@@ -37,6 +37,8 @@ https://thelinuxcode.com/run-makefile-windows/
 ```
 
 ### Celery
+В проекте Celery работает вместе c RabbitMQ, который запускается отдельно в контейнере Docker.
+
 Celery включен в индекс пакетов Python (PyPI), поэтому его можно установить с помощью стандартных инструментов Python,
 таких как pip:
 
@@ -82,8 +84,6 @@ $ docker run -d -p 5672:5672 rabbitmq
 http://www.rabbitmq.com/download.html
 ```
 </details>
-
-В проекте брокер RabbitMQ запускает в отдельно контейнере.
 
 ### Переменные окружения
 В репозиторий добавлены следующие переменные окружения:
