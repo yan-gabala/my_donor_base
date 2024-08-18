@@ -6,3 +6,4 @@ psycopg2-binary==2.9.3
 python-dotenv==1.0.1
 requests==2.31.0
 whitenoise==6.6.0
+amqp==5.2.0
