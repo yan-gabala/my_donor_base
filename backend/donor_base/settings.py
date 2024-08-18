@@ -122,7 +122,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 #  myappuser mysecretpassword 45.144.31.245 myapp свои данные
 CELERY_BROKER_URL = os.getenv(
     "CELERY_BROKER_URL",
-    "amqp://myappuser:mysecrepassword@45.144.31.245:5672/myapp"
+    "amqp://myappuser:mysecretpassword@45.144.31.245:5672/myapp"
 )
 
 CELERY_ACCEPT_CONTENT = ["application/json"]
