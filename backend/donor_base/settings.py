@@ -117,7 +117,6 @@ STATIC_URL = os.getenv("STATIC_URL", "/static/")
 
 # Папка со статикой внутри контейнера backend
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-
 CELERY_BROKER_URL = os.getenv(
     "CELERY_BROKER_URL",
     "amqp://user:password@rabbitmq:5672//"
