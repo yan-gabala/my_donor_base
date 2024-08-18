@@ -49,6 +49,10 @@ class Donor(models.Model):
         validators=[forbidden_words_validator],
         verbose_name="Электронная почта донора",
     )
+    subscription = models.TextField(
+        choices=settings.SUBSCRIPTION_CHOICES,
+        verbose_name="Статус подписки у донора"
+    )
 
     class Meta:
         verbose_name = "Донор"
