@@ -118,10 +118,10 @@ STATIC_URL = os.getenv("STATIC_URL", "/static/")
 # Папка со статикой внутри контейнера backend
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-# Для локального запуска изменить 'nko-rabbitmq-1' на 'localhost'
+# Для локального запуска изменить 'rabbitmq' на 'localhost'
 CELERY_BROKER_URL = os.getenv(
     "CELERY_BROKER_URL",
-    "amqp://user:password@nko-rabbitmq-1:5672//"
+    "amqp://user:password@rabbitmq:5672//"
 )
 
 CELERY_ACCEPT_CONTENT = ["application/json"]
