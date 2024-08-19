@@ -4,15 +4,21 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('contacts', '0003_alter_donor_subcsription'),
+        ("contacts", "0003_alter_donor_subcsription"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='donor',
-            name='subcsription',
-            field=models.TextField(choices=[('Active', 'Подписка активна'), ('Inactive', 'Подписка отсутствует'), ('Lost', 'Подписка утрачена')], verbose_name='Статус подписки у донора'),
+            model_name="donor",
+            name="subcsription",
+            field=models.TextField(
+                choices=[
+                    ("Active", "Подписка активна"),
+                    ("Inactive", "Подписка отсутствует"),
+                    ("Lost", "Подписка утрачена"),
+                ],
+                verbose_name="Статус подписки у донора",
+            ),
         ),
     ]

@@ -4,22 +4,35 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='ForbiddenWord',
+            name="ForbiddenWord",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('forbidden_word', models.CharField(max_length=100, unique=True, verbose_name='Запрещенное слово')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "forbidden_word",
+                    models.CharField(
+                        max_length=100,
+                        unique=True,
+                        verbose_name="Запрещенное слово",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Запрещенное слово',
-                'verbose_name_plural': 'Запрещенные слова',
+                "verbose_name": "Запрещенное слово",
+                "verbose_name_plural": "Запрещенные слова",
             },
         ),
     ]

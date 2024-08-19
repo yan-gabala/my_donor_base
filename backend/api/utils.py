@@ -2,6 +2,7 @@
 import base64
 import csv
 import http
+import logging
 import requests
 import os
 import shutil
@@ -14,6 +15,8 @@ from rest_framework.response import Response
 
 from contacts.models import Donor
 from mixplat.models import MixPlat
+
+logger = logging.getLogger(__name__)
 
 
 def string_to_date(value):
@@ -92,9 +95,11 @@ def handling_cloudpayment_data(request):
         }
         subscription = check_donor_subscriptions(data["email"])
         Donor.objects.update_or_create(
-            email=data["email"], subcsription=subscription
+            email=data["email"], subscription=subscription
         )
+        logger.info(f"Создан Донор {data['email']}")
         return data
+    logger.info("Неправильная структура request.data")
     raise ValueError("Неправильная структура request.data")
 
 
@@ -114,6 +119,7 @@ def check_cloudpayments_connection():
 
 def send_payment_email(email, message):
     """Sending message via Unisender method."""
+
     url = settings.DEFAULT_CONF["base_url"] + "/ru/api/sendEmail?format=json"
 
     data = {
@@ -129,19 +135,19 @@ def send_payment_email(email, message):
     response = requests.post(url, data=data)
 
     if response.status_code != status.HTTP_200_OK:
-        print(f"Ошибка при отправке сообщения: {response.status_code}")
-        print(f"Ответ сервера: {response.text}")
+        logger.info(f"Ошибка при отправке сообщения: {response.status_code}")
+        logger.info(f"Ответ сервера: {response.text}")
     else:
         response_data = response.json()
         if "error" in response_data:
-            print("Ошибка при отправке сообщения:")
-            print(f"Код ошибки: {response_data['code']}")
-            print(f"Сообщение об ошибке: {response_data['error']}")
+            logger.info("Ошибка при отправке сообщения:")
+            logger.info(f"Код ошибки: {response_data['code']}")
+            logger.info(f"Сообщение об ошибке: {response_data['error']}")
         elif "result" in response_data:
-            print("Сообщение успешно отправлено!")
-            print(f"Email ID: {response_data['result']['email_id']}")
+            logger.info("Сообщение успешно отправлено!")
+            logger.info(f"Email ID: {response_data['result']['email_id']}")
         else:
-            print(f"Неизвестный ответ от сервера: {response_data}")
+            logger.info(f"Неизвестный ответ от сервера: {response_data}")
 
 
 def send_request():
@@ -177,5 +183,9 @@ def add_contacts(file_url):
         except OSError as e:
             raise f"Error: {e.filename, e.strerror}"
 
+        logger.info(f"Добавленно {len(bulk_list)} контактов.")
         return f"Добавленно {len(bulk_list)} контактов."
+    logger.info(
+        f"Файл по ссылке не получен, код ответа {response.status_code}"
+    )
     return f"Файл по ссылке не получен, код ответа {response.status_code}."
