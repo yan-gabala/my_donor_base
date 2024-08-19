@@ -212,3 +212,7 @@ for x in cont:
 data_unisender["data"] = data
 ```
 [Другие методы Unisender API](https://www.unisender.com/ru/support/api/api)
+
+### Логирование в проекте
+Подключено логирование через настройки Django и логирование задач, выполняемых Celery.
+Файлы django_info.log и celery.log находятся в директории backend проекта.
