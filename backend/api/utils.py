@@ -99,7 +99,7 @@ def handling_cloudpayment_data(request):
         )
         logger.info(f"Создан Донор {data['email']}")
         return data
-    logger.info(f"Неправильная структура request.data")
+    logger.info("Неправильная структура request.data")
     raise ValueError("Неправильная структура request.data")
 
 
@@ -185,5 +185,7 @@ def add_contacts(file_url):
 
         logger.info(f"Добавленно {len(bulk_list)} контактов.")
         return f"Добавленно {len(bulk_list)} контактов."
-    logger.info(f"Файл по ссылке не получен, код ответа {response.status_code}")
+    logger.info(
+        f"Файл по ссылке не получен, код ответа {response.status_code}"
+    )
     return f"Файл по ссылке не получен, код ответа {response.status_code}."

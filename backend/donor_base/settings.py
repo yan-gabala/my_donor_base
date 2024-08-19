@@ -64,45 +64,45 @@ TEMPLATES = [
 WSGI_APPLICATION = "donor_base.wsgi.application"
 
 # sqlite3
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
-
-# postgresql
 # DATABASES = {
 #     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": os.getenv("POSTGRES_DB", "django"),
-#         "USER": os.getenv("POSTGRES_USER", "django"),
-#         "PASSWORD": os.getenv("POSTGRES_PASSWORD", ""),
-#         "HOST": os.getenv("DB_HOST", ""),
-#         "PORT": os.getenv("DB_PORT", 5432),
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
 
+# postgresql
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("POSTGRES_DB", "django"),
+        "USER": os.getenv("POSTGRES_USER", "django"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", ""),
+        "HOST": os.getenv("DB_HOST", ""),
+        "PORT": os.getenv("DB_PORT", 5432),
+    }
+}
+
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {message}',
-            'style': '{',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {message}",
+            "style": "{",
         }
     },
-    'handlers': {
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': 'django_info.log',
-            'formatter': 'verbose'
+    "handlers": {
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": "django_info.log",
+            "formatter": "verbose",
         },
     },
-    'root': {
-        'handlers': ['file'],
-        'level': 'INFO',
+    "root": {
+        "handlers": ["file"],
+        "level": "INFO",
     },
 }
 
@@ -143,8 +143,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Для локального запуска изменить 'rabbitmq' на 'localhost'
 CELERY_BROKER_URL = os.getenv(
-    "CELERY_BROKER_URL",
-    "amqp://user:password@rabbitmq:5672//"
+    "CELERY_BROKER_URL", "amqp://user:password@rabbitmq:5672//"
 )
 
 CELERY_ACCEPT_CONTENT = ["application/json"]

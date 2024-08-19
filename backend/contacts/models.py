@@ -51,7 +51,7 @@ class Donor(models.Model):
     )
     subscription = models.TextField(
         choices=settings.SUBSCRIPTION_CHOICES,
-        verbose_name="Статус подписки у донора"
+        verbose_name="Статус подписки у донора",
     )
 
     class Meta:
