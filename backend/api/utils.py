@@ -95,7 +95,8 @@ def handling_cloudpayment_data(request):
         }
         subscription = check_donor_subscriptions(data["email"])
         Donor.objects.update_or_create(
-            email=data["email"], subscription=subscription
+            email=data["email"],
+            defaults={"subscription": subscription},
         )
         logger.info(f"Создан Донор {data['email']}")
         return data
