@@ -94,11 +94,53 @@ def handling_cloudpayment_data(request):
             "currency": model.get("Currency"),
         }
         subscription = check_donor_subscriptions(data["email"])
-        Donor.objects.update_or_create(
-            email=data["email"],
-            defaults={"subscription": subscription},
-        )
-        logger.info(f"Создан Донор {data['email']}")
+        # Если донора нет в базе:
+        if not donor_exists(data["email"]):
+            # Если подписка неактивна:
+            if subscription == settings.SUBSCRIPTION_CHOICES[1][0]:
+                # Сохраняем как Inactive
+                Donor.objects.create(
+                    email=data["email"],
+                    subscription=settings.SUBSCRIPTION_CHOICES[1][0],
+                )
+                logger.info(f"Создан Донор {data['email']} {subscription}")
+            # Если подписка активна:
+            elif subscription == settings.SUBSCRIPTION_CHOICES[0][0]:
+                # Сохраняем как New
+                Donor.objects.create(
+                    email=data["email"],
+                    subscription=settings.SUBSCRIPTION_CHOICES[3][0],
+                )
+                logger.info(f"Создан Донор {data['email']} {subscription}")
+        # Если донор есть в базе смотрим статус платежа
+        else:
+            # Если платеж неуспешный
+            if data["status"] == "Declined" or data["status"] == "Cancelled":
+                # Смотрим какой статус сейчас в базе
+                donor = Donor.objects.filter(email=data["email"])
+                # Если в базе статус активен
+                if donor.subscription == settings.SUBSCRIPTION_CHOICES[0][0]:
+                    # Обновляем его статус на Lost
+                    Donor.objects.update_or_create(
+                        email=data["email"],
+                        defaults={
+                            "subscription": settings.SUBSCRIPTION_CHOICES[2][0]
+                        },
+                    )
+                    logger.info(
+                        f"У Донор {data['email']} обновлен статус на {subscription}"
+                    )
+            # Если платеж успешный, обновляем запись
+            else:
+                Donor.objects.update_or_create(
+                    email=data["email"],
+                    defaults={
+                        "subscription": settings.SUBSCRIPTION_CHOICES[2][0]
+                    },
+                )
+                logger.info(
+                    f"У Донор {data['email']} обновлен статус на {subscription}"
+                )
         return data
     logger.info("Неправильная структура request.data")
     raise ValueError("Неправильная структура request.data")
