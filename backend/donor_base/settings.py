@@ -3,6 +3,9 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+# from celery.schedules import crontab
+from datetime import timedelta
+
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -141,7 +144,17 @@ STATIC_URL = os.getenv("STATIC_URL", "/static/")
 # Папка со статикой внутри контейнера backend
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-# Для локального запуска изменить 'rabbitmq' на 'localhost'
+# Для локального запуска запустить контейнер Docker командой
+# sudo docker run -d --name rabbitmq
+# -p 5672:5672 -p 15672:15672
+# -e RABBITMQ_DEFAULT_USER=user
+# -e RABBITMQ_DEFAULT_PASS=password
+# rabbitmq:3-management
+# CELERY_BROKER_URL = os.getenv(
+#     "CELERY_BROKER_URL", "amqp://user:password@localhost:5672//"
+# )
+
+# Для работы на сервере
 CELERY_BROKER_URL = os.getenv(
     "CELERY_BROKER_URL", "amqp://user:password@rabbitmq:5672//"
 )
@@ -154,6 +167,19 @@ CELERY_TASK_TRACK_STARTED = True
 
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
+CELERY_BEAT_SCHEDULE = {
+    # Планируем отправку доноров, например ежедневно в 3 ночи.
+    # 'run-every-day-at-midnight': {
+    #     'task': 'api.tasks.send_users_to_unisender',
+    #     'schedule': crontab(hour=3, minute=0),
+    # },
+    # Периодическая такса для проверки,
+    # будет писать в файл celery.log раз в 10 секунд
+    "run-every-10-seconds": {
+        "task": "api.tasks.send_users_to_unisender",
+        "schedule": timedelta(seconds=10),
+    },
+}
 
 # Константы проекта
 
@@ -215,4 +241,5 @@ SUBSCRIPTION_CHOICES = [
     ("Active", "Подписка активна"),
     ("Inactive", "Подписка отсутствует"),
     ("Lost", "Подписка утрачена"),
+    ("New", "Новый подписчик"),
 ]
