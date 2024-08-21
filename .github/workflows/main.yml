@@ -118,5 +118,5 @@ jobs:
         docker compose -f docker-compose.production.yml exec backend bash -c "python manage.py makemigrations" && \
         docker compose -f docker-compose.production.yml exec backend bash -c "python manage.py migrate" && \
         docker compose -f docker-compose.production.yml exec backend bash -c "celery -A donor_base worker --loglevel=info" && \
-        docker compose -f docker-compose.production.yml exec backend bash -c "celery -A donor_base worker --loglevel=info" && \
+        docker compose -f docker-compose.production.yml exec backend bash -c "celery -A donor_base beat --loglevel=info" && \
         docker image prune -a -f"
