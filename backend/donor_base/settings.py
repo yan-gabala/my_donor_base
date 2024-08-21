@@ -175,10 +175,10 @@ CELERY_BEAT_SCHEDULE = {
     # },
     # Периодическая такса для проверки,
     # будет писать в файл celery.log раз в 10 секунд
-    "run-every-10-seconds": {
-        "task": "api.tasks.send_users_to_unisender",
-        "schedule": timedelta(seconds=10),
-    },
+    # "run-every-10-seconds": {
+    #     "task": "api.tasks.send_users_to_unisender",
+    #     "schedule": timedelta(seconds=10),
+    # },
 }
 
 # Константы проекта
