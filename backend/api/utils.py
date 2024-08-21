@@ -111,7 +111,10 @@ def create_or_update_donor(data, subscription):
                 email=data["email"],
                 subscription=settings.SUBSCRIPTION_CHOICES[1][0],
             )
-            logger.info(f"Создан Донор {data['email']} {subscription}")
+            logger.info(
+                f"Создан Донор {data['email']} "
+                f"{settings.SUBSCRIPTION_CHOICES[1][0]}"
+            )
         # Если подписка активна:
         elif subscription == settings.SUBSCRIPTION_CHOICES[0][0]:
             # Сохраняем как New
@@ -119,13 +122,16 @@ def create_or_update_donor(data, subscription):
                 email=data["email"],
                 subscription=settings.SUBSCRIPTION_CHOICES[3][0],
             )
-            logger.info(f"Создан Донор {data['email']} {subscription}")
+            logger.info(
+                f"Создан Донор {data['email']} "
+                f"{settings.SUBSCRIPTION_CHOICES[3][0]}"
+            )
     # Если донор есть в базе смотрим статус платежа
     else:
         # Если платеж неуспешный
         if data["status"] == "Declined" or data["status"] == "Cancelled":
             # Смотрим какой статус сейчас в базе
-            donor = Donor.objects.filter(email=data["email"])
+            donor = Donor.objects.get(email=data["email"])
             # Если в базе статус активен
             if donor.subscription == settings.SUBSCRIPTION_CHOICES[0][0]:
                 # Обновляем его статус на Lost
@@ -137,7 +143,7 @@ def create_or_update_donor(data, subscription):
                 )
                 logger.info(
                     f"У Донора {data['email']} "
-                    f"обновлен статус на {subscription}"
+                    f"обновлен статус на {settings.SUBSCRIPTION_CHOICES[2][0]}"
                 )
         # Если платеж успешный, обновляем запись
         else:
