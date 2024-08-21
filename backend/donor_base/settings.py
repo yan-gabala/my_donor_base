@@ -67,24 +67,24 @@ TEMPLATES = [
 WSGI_APPLICATION = "donor_base.wsgi.application"
 
 # sqlite3
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
-
-# postgresql
 # DATABASES = {
 #     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": os.getenv("POSTGRES_DB", "django"),
-#         "USER": os.getenv("POSTGRES_USER", "django"),
-#         "PASSWORD": os.getenv("POSTGRES_PASSWORD", ""),
-#         "HOST": os.getenv("DB_HOST", ""),
-#         "PORT": os.getenv("DB_PORT", 5432),
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
+
+# postgresql
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("POSTGRES_DB", "django"),
+        "USER": os.getenv("POSTGRES_USER", "django"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", ""),
+        "HOST": os.getenv("DB_HOST", ""),
+        "PORT": os.getenv("DB_PORT", 5432),
+    }
+}
 
 LOGGING = {
     "version": 1,
@@ -150,14 +150,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # -e RABBITMQ_DEFAULT_USER=user
 # -e RABBITMQ_DEFAULT_PASS=password
 # rabbitmq:3-management
-CELERY_BROKER_URL = os.getenv(
-    "CELERY_BROKER_URL", "amqp://user:password@localhost:5672//"
-)
+# CELERY_BROKER_URL = os.getenv(
+#     "CELERY_BROKER_URL", "amqp://user:password@localhost:5672//"
+# )
 
 # Для работы на сервере
-# CELERY_BROKER_URL = os.getenv(
-#     "CELERY_BROKER_URL", "amqp://user:password@rabbitmq:5672//"
-# )
+CELERY_BROKER_URL = os.getenv(
+    "CELERY_BROKER_URL", "amqp://user:password@rabbitmq:5672//"
+)
 
 CELERY_ACCEPT_CONTENT = ["application/json"]
 
@@ -173,7 +173,8 @@ CELERY_BEAT_SCHEDULE = {
     #     'task': 'api.tasks.send_users_to_unisender',
     #     'schedule': crontab(hour=3, minute=0),
     # },
-    # Периодическая такса для проверки
+    # Периодическая такса для проверки,
+    # будет писать в файл celery.log раз в 10 секунд
     "run-every-10-seconds": {
         "task": "api.tasks.send_users_to_unisender",
         "schedule": timedelta(seconds=10),
