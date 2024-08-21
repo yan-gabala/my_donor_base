@@ -243,3 +243,5 @@ SUBSCRIPTION_CHOICES = [
     ("Lost", "Подписка утрачена"),
     ("New", "Новый подписчик"),
 ]
+
+BAD_STATUSES = ["Cancelled", "Declined", "failure"]

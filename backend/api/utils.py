@@ -129,7 +129,7 @@ def create_or_update_donor(data, subscription):
     # Если донор есть в базе смотрим статус платежа
     else:
         # Если платеж неуспешный
-        if data["status"] == "Declined" or data["status"] == "Cancelled":
+        if data["status"] in settings.BAD_STATUSES:
             # Смотрим какой статус сейчас в базе
             donor = Donor.objects.get(email=data["email"])
             # Если в базе статус активен
