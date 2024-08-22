@@ -8,15 +8,15 @@ from mixplat.models import MixPlat
 
 @receiver(post_save, sender=CloudPayment)
 @receiver(post_save, sender=MixPlat)
-def payment_handler(sender, instance, created, **kwargs):
+def payment_handler(sender, instance, **kwargs):
     email = instance.email
-    if not created:
-        if instance.status == "rejected":
-            message = f"Ваш платеж на {instance.donat} был отклонен."
-            send_payment_email(email, message)
-        else:
-            message = f"Ваш платеж на {instance.donat} был обновлен."
-            send_payment_email(email, message)
-    else:
+    message = None
+    declined_statuses = ["Declined", "Cancelled", "failure"]
+
+    if instance.status in declined_statuses:
+        message = f"Ваш платеж на {instance.donat} был отклонен."
+    elif instance.status in ["success", "Completed"]:
         message = f"Ваш платеж на {instance.donat} выполнен."
+
+    if email and message:
         send_payment_email(email, message)
