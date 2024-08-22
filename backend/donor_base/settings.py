@@ -229,13 +229,12 @@ DEFAULT_CONF = {
     "platform": None,
 }
 
-NOTIFY_URL = (
-    "&notify_url=https://foodgrampyengineer.ru/api/contacts/get_contacts/"
-)
-FIELD_NAMES = "&field_names[]=email"
+EXPORT_UNISENDER = "https://api.unisender.com/ru/api/async/exportContacts"
+UNISENDER_API_KEY = os.getenv("UNISENDER_API_KEY")
+NOTIFY_URL = "https://foodgrampyengineer.ru/api/contacts/get_contacts/"
+
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 UNISENDER_SENDER_NAME = os.getenv("UNISENDER_SENDER_NAME")
-REQUEST_URL = os.getenv("REQUEST_URL").format(NOTIFY_URL + FIELD_NAMES)
 
 SUBSCRIPTION_CHOICES = [
     ("Active", "Подписка активна"),
@@ -243,5 +242,10 @@ SUBSCRIPTION_CHOICES = [
     ("Lost", "Подписка утрачена"),
     ("New", "Новый подписчик"),
 ]
-
+GROUPS = {
+    5: "Active",
+    7: "Inactive",
+    9: "Lost",
+    12: "New",
+}
 BAD_STATUSES = ["Cancelled", "Declined", "failure"]
