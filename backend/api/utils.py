@@ -203,11 +203,22 @@ def send_payment_email(email, message):
             logger.info(f"Неизвестный ответ от сервера: {response_data}")
 
 
-def send_request():
+def send_request(list_id):
     """Отправка запроса на получение контактов доноров от Unisender."""
-    response = requests.get(settings.REQUEST_URL)
+    response = requests.post(
+        url=settings.EXPORT_UNISENDER,
+        data={
+            "api_key": settings.UNISENDER_API_KEY,
+            "notify_url": settings.NOTIFY_URL,
+            "field_names[0]": "email",
+            "field_names[1]": "email_list_ids",
+            "list_id": int(list_id),
+        },
+        timeout=30,
+    )
     if response.status_code != status.HTTP_200_OK:
-        raise f"Ошибка при запросе: {response.status_code}"
+        logger.info(f"Ошибка при запросе: {response.status_code}")
+        return response.json()
     return response.json()["result"]["task_uuid"]
 
 
@@ -228,7 +239,11 @@ def add_contacts(file_url):
             file_reader = csv.reader(csv_file, delimiter=",")
             for row in file_reader:
                 if row[0] != "email" and donor_exists(row[0]) is False:
-                    bulk_list.append(Donor(email=row[0]))
+                    bulk_list.append(
+                        Donor(
+                            email=row[0], subscription=settings.GROUPS[row[1]]
+                        ),
+                    )
             Donor.objects.bulk_create(bulk_list)
 
         try:
