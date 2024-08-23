@@ -31,11 +31,12 @@ class ContactViewSet(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
 
-    @action(detail=False, url_path="start", methods=("get",))
+    @action(detail=False, url_path="start", methods=("post",))
     def start(self, request):
         """Запуск процесса получения контактов из Unisender."""
         return Response(
-            dict(task_uuid=send_request()), status=status.HTTP_200_OK
+            send_request(request.data["list_id"]),
+            status=status.HTTP_200_OK,
         )
 
     @action(
@@ -48,6 +49,8 @@ class ContactViewSet(viewsets.ModelViewSet):
     )
     def get_contacts(self, request):
         """Метод получения контактов от Unisender."""
+        if request.method == "GET":
+            return Response(status=status.HTTP_200_OK)
         return Response(
             dict(
                 result=add_contacts(request.data["result"]["file_to_download"])

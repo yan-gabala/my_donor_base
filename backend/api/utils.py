@@ -129,7 +129,7 @@ def create_or_update_donor(data, subscription):
     # Если донор есть в базе смотрим статус платежа
     else:
         # Если платеж неуспешный
-        if data["status"] == "Declined" or data["status"] == "Cancelled":
+        if data["status"] in settings.BAD_STATUSES:
             # Смотрим какой статус сейчас в базе
             donor = Donor.objects.get(email=data["email"])
             # Если в базе статус активен
@@ -203,12 +203,33 @@ def send_payment_email(email, message):
             logger.info(f"Неизвестный ответ от сервера: {response_data}")
 
 
-def send_request():
+def send_request(list_id):
     """Отправка запроса на получение контактов доноров от Unisender."""
-    response = requests.get(settings.REQUEST_URL)
+    url = settings.EXPORT_UNISENDER
+    data = {
+        "api_key": settings.UNISENDER_API_KEY,
+        "notify_url": settings.NOTIFY_URL,
+        "field_names[0]": "email",
+        "field_names[1]": "email_list_ids",
+        "list_id": list_id,
+    }
+    response = requests.post(url, data=data)
     if response.status_code != status.HTTP_200_OK:
-        raise f"Ошибка при запросе: {response.status_code}"
-    return response.json()["result"]["task_uuid"]
+        logger.info(f"Ошибка при запросе: {response.status_code}")
+        return response.json()
+    else:
+        response_data = response.json()
+        if "error" in response_data:
+            logger.info("Ошибка:")
+            logger.info(f"Код ошибки: {response_data['code']}")
+            logger.info(f"Сообщение об ошибке: {response_data['error']}")
+        elif "result" in response_data:
+            logger.info("Успешно!")
+            logger.info(f"Email ID: {response_data['result']}")
+            return response_data
+        else:
+            logger.info(f"Неизвестный ответ от сервера: {response_data}")
+    return response.json()
 
 
 def add_contacts(file_url):
@@ -228,7 +249,11 @@ def add_contacts(file_url):
             file_reader = csv.reader(csv_file, delimiter=",")
             for row in file_reader:
                 if row[0] != "email" and donor_exists(row[0]) is False:
-                    bulk_list.append(Donor(email=row[0]))
+                    bulk_list.append(
+                        Donor(
+                            email=row[0], subscription=settings.GROUPS[row[1]]
+                        ),
+                    )
             Donor.objects.bulk_create(bulk_list)
 
         try:
