@@ -243,13 +243,13 @@ SUBSCRIPTION_CHOICES = [
     ("New", "Новый подписчик"),
 ]
 GROUPS = {
-    5: "Active",
-    "Active": 5,
-    7: "Inactive",
-    "Inactive": 7,
-    9: "Lost",
-    "Lost": 9,
-    12: "New",
-    "New": 12,
+    "5": "Active",
+    "Active": "5",
+    "7": "Inactive",
+    "Inactive": "7",
+    "9": "Lost",
+    "Lost": "9",
+    "12": "New",
+    "New": "12",
 }
 BAD_STATUSES = ["Cancelled", "Declined", "failure"]

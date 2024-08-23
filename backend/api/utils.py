@@ -212,7 +212,7 @@ def send_request(list_id):
             "notify_url": settings.NOTIFY_URL,
             "field_names[0]": "email",
             "field_names[1]": "email_list_ids",
-            "list_id": int(list_id),
+            "list_id": list_id,
         },
         timeout=30,
     )
