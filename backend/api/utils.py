@@ -205,7 +205,6 @@ def send_payment_email(email, message):
 
 def send_request(list_id):
     """Отправка запроса на получение контактов доноров от Unisender."""
-
     url = settings.EXPORT_UNISENDER
     data = {
         "api_key": settings.UNISENDER_API_KEY,
@@ -218,7 +217,7 @@ def send_request(list_id):
     if response.status_code != status.HTTP_200_OK:
         logger.info(f"Ошибка при запросе: {response.status_code}")
         return response.json()
-    return response.json()["result"]["task_uuid"]
+    return response.json()
 
 
 def add_contacts(file_url):

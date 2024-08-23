@@ -35,7 +35,7 @@ class ContactViewSet(viewsets.ModelViewSet):
     def start(self, request):
         """Запуск процесса получения контактов из Unisender."""
         return Response(
-            dict(task_uuid=send_request(request.data["list_id"])),
+            send_request(request.data["list_id"]),
             status=status.HTTP_200_OK,
         )
 
