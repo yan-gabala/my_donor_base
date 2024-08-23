@@ -29,6 +29,25 @@ def donor_exists(email):
     return Donor.objects.filter(email=email).exists()
 
 
+def ad_donor(donor, id_group, update=False):
+    """Добавляет email донора в указанную группу."""
+    url = settings.IMPORT_UNISENDER
+    data = {
+        "format": "json",
+        "api_key": settings.UNISENDER_API_KEY,
+        "overwrite_lists": 1 if update else 0,
+        "field_names[0]": "email",
+        "field_names[1]": "email_list_ids",
+        "data[0][0]": donor,
+        "data[0][1]": id_group,
+    }
+    response = requests.post(url, data=data, timeout=30)
+
+    if response.status_code != status.HTTP_200_OK:
+        logger.info(f"Ошибка при запросе: {response.status_code}")
+        logger.info(response.json())
+
+
 def mixplat_request_handler(request):
     """Метод создания объектов из данных от Mixplat."""
     try:
@@ -110,6 +129,10 @@ def create_or_update_donor(data, subscription):
             Donor.objects.create(
                 email=data["email"],
                 subscription=settings.SUBSCRIPTION_CHOICES[1][0],
+            )
+            ad_donor(
+                data["email"],
+                settings.GROUPS[settings.SUBSCRIPTION_CHOICES[1][0]],
             )
             logger.info(
                 f"Создан Донор {data['email']} "
@@ -225,11 +248,10 @@ def send_request(list_id):
             logger.info(f"Сообщение об ошибке: {response_data['error']}")
         elif "result" in response_data:
             logger.info("Успешно!")
-            logger.info(f"Email ID: {response_data['result']}")
+            logger.info(f"result: {response_data['result']}")
             return response_data
         else:
             logger.info(f"Неизвестный ответ от сервера: {response_data}")
-    return response.json()
 
 
 def add_contacts(file_url):

@@ -230,6 +230,7 @@ DEFAULT_CONF = {
 }
 
 EXPORT_UNISENDER = "https://api.unisender.com/ru/api/async/exportContacts"
+IMPORT_UNISENDER = "https://api.unisender.com/ru/api/importContacts"
 UNISENDER_API_KEY = os.getenv("UNISENDER_API_KEY")
 NOTIFY_URL = "https://foodgrampyengineer.ru/api/contacts/get_contacts/"
 
