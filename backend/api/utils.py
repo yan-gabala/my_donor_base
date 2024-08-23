@@ -205,17 +205,19 @@ def send_payment_email(email, message):
 
 def send_request(list_id):
     """Отправка запроса на получение контактов доноров от Unisender."""
-    response = requests.post(
-        settings.EXPORT_UNISENDER,
-        data={
-            "api_key": settings.UNISENDER_API_KEY,
-            "notify_url": settings.NOTIFY_URL,
-            "field_names[0]": "email",
-            "field_names[1]": "email_list_ids",
-            "list_id": list_id,
-        },
-        timeout=30,
-    )
+
+    url = settings.EXPORT_UNISENDER
+    data = {
+        "api_key": settings.UNISENDER_API_KEY,
+        "notify_url": settings.NOTIFY_URL,
+        "field_names[0]": "email",
+        "field_names[1]": "email_list_ids",
+        "list_id": list_id,
+    }
+    logger.info(f"url = {url}")
+    logger.info(data)
+    logger.info(f"list_id = {list_id}")
+    response = requests.post(url, data=data, timeout=30)
     if response.status_code != status.HTTP_200_OK:
         logger.info(f"Ошибка при запросе: {response.status_code}")
         return response.json()
