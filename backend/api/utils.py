@@ -217,6 +217,18 @@ def send_request(list_id):
     if response.status_code != status.HTTP_200_OK:
         logger.info(f"Ошибка при запросе: {response.status_code}")
         return response.json()
+    else:
+        response_data = response.json()
+        if "error" in response_data:
+            logger.info("Ошибка:")
+            logger.info(f"Код ошибки: {response_data['code']}")
+            logger.info(f"Сообщение об ошибке: {response_data['error']}")
+        elif "result" in response_data:
+            logger.info("Успешно!")
+            logger.info(f"Email ID: {response_data['result']}")
+            return response_data
+        else:
+            logger.info(f"Неизвестный ответ от сервера: {response_data}")
     return response.json()
 
 
