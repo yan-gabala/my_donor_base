@@ -217,7 +217,8 @@ def send_request(list_id):
         timeout=30,
     )
     if response.status_code != status.HTTP_200_OK:
-        raise f"Ошибка при запросе: {response.status_code}"
+        logger.info(f"Ошибка при запросе: {response.status_code}")
+        return response.json()
     return response.json()["result"]["task_uuid"]
 
 
