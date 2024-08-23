@@ -206,7 +206,7 @@ def send_payment_email(email, message):
 def send_request(list_id):
     """Отправка запроса на получение контактов доноров от Unisender."""
     response = requests.post(
-        url=settings.EXPORT_UNISENDER,
+        settings.EXPORT_UNISENDER,
         data={
             "api_key": settings.UNISENDER_API_KEY,
             "notify_url": settings.NOTIFY_URL,
