@@ -214,10 +214,7 @@ def send_request(list_id):
         "field_names[1]": "email_list_ids",
         "list_id": list_id,
     }
-    logger.info(f"url = {url}")
-    logger.info(data)
-    logger.info(f"list_id = {list_id}")
-    response = requests.post(url, data=data, timeout=30)
+    response = requests.post(url, data=data)
     if response.status_code != status.HTTP_200_OK:
         logger.info(f"Ошибка при запросе: {response.status_code}")
         return response.json()
