@@ -128,3 +128,4 @@ jobs:
       run: |
         ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd nko && \
         docker compose -f docker-compose.production.yml exec backend bash -c 'celery -A donor_base beat --loglevel=info > /dev/null 2>&1 &'"
+
