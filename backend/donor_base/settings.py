@@ -254,3 +254,4 @@ GROUPS = {
     "New": "12",
 }
 BAD_STATUSES = ["Cancelled", "Declined", "failure"]
+NEY_SUB_STAT = ["Lost", "Inactive"]
