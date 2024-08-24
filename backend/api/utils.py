@@ -67,8 +67,12 @@ def mixplat_request_handler(request):
 
         MixPlat.objects.create(**mixplat_obj_dict)
 
-        if donor_exists(request.data["user_email"]) is False:
-            Donor.objects.create(email=request.data["user_email"])
+        if request.data.get("recurrent_id"):
+            subscription = settings.SUBSCRIPTION_CHOICES[0][0]
+        else:
+            subscription = settings.SUBSCRIPTION_CHOICES[1][0]
+
+        create_or_update_donor(mixplat_obj_dict, subscription)
 
         return Response(dict(result="ok"), status=status.HTTP_200_OK)
     except KeyError:
@@ -145,6 +149,10 @@ def create_or_update_donor(data, subscription):
                 email=data["email"],
                 subscription=settings.SUBSCRIPTION_CHOICES[3][0],
             )
+            ad_donor(
+                data["email"],
+                settings.GROUPS[settings.SUBSCRIPTION_CHOICES[3][0]],
+            )
             logger.info(
                 f"Создан Донор {data['email']} "
                 f"{settings.SUBSCRIPTION_CHOICES[3][0]}"
@@ -164,6 +172,11 @@ def create_or_update_donor(data, subscription):
                         "subscription": settings.SUBSCRIPTION_CHOICES[2][0]
                     },
                 )
+                ad_donor(
+                    data["email"],
+                    settings.GROUPS[settings.SUBSCRIPTION_CHOICES[2][0]],
+                    "update",
+                )
                 logger.info(
                     f"У Донора {data['email']} "
                     f"обновлен статус на {settings.SUBSCRIPTION_CHOICES[2][0]}"
@@ -173,6 +186,11 @@ def create_or_update_donor(data, subscription):
             Donor.objects.update_or_create(
                 email=data["email"],
                 defaults={"subscription": subscription},
+            )
+            ad_donor(
+                data["email"],
+                settings.GROUPS[subscription],
+                "update",
             )
             logger.info(
                 f"У Донора {data['email']} обновлен статус на {subscription}"
