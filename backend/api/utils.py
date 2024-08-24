@@ -159,10 +159,9 @@ def create_or_update_donor(data, subscription):
             )
     # Если донор есть в базе смотрим статус платежа
     else:
+        donor = Donor.objects.get(email=data["email"])
         # Если платеж неуспешный
         if data["status"] in settings.BAD_STATUSES:
-            # Смотрим какой статус сейчас в базе
-            donor = Donor.objects.get(email=data["email"])
             # Если в базе статус активен
             if donor.subscription == settings.SUBSCRIPTION_CHOICES[0][0]:
                 # Обновляем его статус на Lost
@@ -183,18 +182,50 @@ def create_or_update_donor(data, subscription):
                 )
         # Если платеж успешный, обновляем запись
         else:
-            Donor.objects.update_or_create(
-                email=data["email"],
-                defaults={"subscription": subscription},
-            )
-            ad_donor(
-                data["email"],
-                settings.GROUPS[subscription],
-                "update",
-            )
-            logger.info(
-                f"У Донора {data['email']} обновлен статус на {subscription}"
-            )
+            # если активная подписка
+            if subscription == settings.SUBSCRIPTION_CHOICES[0][0]:
+                # если старый статус "Lost", "Inactive"
+                if donor.subscription in settings.NEY_SUB_STAT:
+                    Donor.objects.update_or_create(
+                        email=data["email"],
+                        defaults={
+                            "subscription": settings.SUBSCRIPTION_CHOICES[3][0]
+                        },
+                    )
+                    ad_donor(
+                        data["email"],
+                        settings.GROUPS[settings.SUBSCRIPTION_CHOICES[3][0]],
+                        "update",
+                    )
+                    logger.info(
+                        f"У Донора {data['email']} обновлен статус "
+                        f"{settings.SUBSCRIPTION_CHOICES[3][0]}"
+                    )
+                # старый статус "New"
+                elif donor.subscription == "New":
+                    Donor.objects.update_or_create(
+                        email=data["email"],
+                        defaults={"subscription": subscription},
+                    )
+                    ad_donor(
+                        data["email"],
+                        settings.GROUPS[subscription],
+                        "update",
+                    )
+            # если подписка не активна
+            else:
+                Donor.objects.update_or_create(
+                    email=data["email"],
+                    defaults={"subscription": subscription},
+                )
+                ad_donor(
+                    data["email"],
+                    settings.GROUPS[subscription],
+                    "update",
+                )
+                logger.info(
+                    f"У Донора {data['email']} обновлен статус{subscription}"
+                )
 
 
 def check_cloudpayments_connection():
@@ -224,7 +255,7 @@ def send_payment_email(email, message):
         "sender_name": settings.UNISENDER_SENDER_NAME,
         "subject": "Payment information",
         "body": message,
-        "list_id": 1,
+        "list_id": 1002,
     }
     response = requests.post(url, data=data)
 
