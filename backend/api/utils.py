@@ -255,7 +255,7 @@ def send_payment_email(email, message):
         "sender_name": settings.UNISENDER_SENDER_NAME,
         "subject": "Payment information",
         "body": message,
-        "list_id": 1002,
+        "list_id": 7,
     }
     response = requests.post(url, data=data)
 
