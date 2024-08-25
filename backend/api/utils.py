@@ -29,8 +29,12 @@ def donor_exists(email):
     return Donor.objects.filter(email=email).exists()
 
 
-def ad_donor(donor, id_group, update=False):
-    """Добавляет email донора в указанную группу."""
+def ad_donor(donor, subscription, update=False):
+    """Добавляет email донора в указанную группу в БД и в unisender."""
+    Donor.objects.update_or_create(
+        email=donor,
+        defaults={"subscription": subscription},
+    )
     url = settings.IMPORT_UNISENDER
     data = {
         "format": "json",
@@ -39,7 +43,7 @@ def ad_donor(donor, id_group, update=False):
         "field_names[0]": "email",
         "field_names[1]": "email_list_ids",
         "data[0][0]": donor,
-        "data[0][1]": id_group,
+        "data[0][1]": settings.GROUPS[subscription],
     }
     response = requests.post(url, data=data, timeout=30)
 
@@ -130,13 +134,9 @@ def create_or_update_donor(data, subscription):
         # Если подписка неактивна:
         if subscription == settings.SUBSCRIPTION_CHOICES[1][0]:
             # Сохраняем как Inactive
-            Donor.objects.create(
-                email=data["email"],
-                subscription=settings.SUBSCRIPTION_CHOICES[1][0],
-            )
             ad_donor(
                 data["email"],
-                settings.GROUPS[settings.SUBSCRIPTION_CHOICES[1][0]],
+                settings.SUBSCRIPTION_CHOICES[1][0],
             )
             logger.info(
                 f"Создан Донор {data['email']} "
@@ -145,13 +145,9 @@ def create_or_update_donor(data, subscription):
         # Если подписка активна:
         elif subscription == settings.SUBSCRIPTION_CHOICES[0][0]:
             # Сохраняем как New
-            Donor.objects.create(
-                email=data["email"],
-                subscription=settings.SUBSCRIPTION_CHOICES[3][0],
-            )
             ad_donor(
                 data["email"],
-                settings.GROUPS[settings.SUBSCRIPTION_CHOICES[3][0]],
+                settings.SUBSCRIPTION_CHOICES[3][0],
             )
             logger.info(
                 f"Создан Донор {data['email']} "
@@ -165,15 +161,9 @@ def create_or_update_donor(data, subscription):
             # Если в базе статус активен
             if donor.subscription == settings.SUBSCRIPTION_CHOICES[0][0]:
                 # Обновляем его статус на Lost
-                Donor.objects.update_or_create(
-                    email=data["email"],
-                    defaults={
-                        "subscription": settings.SUBSCRIPTION_CHOICES[2][0]
-                    },
-                )
                 ad_donor(
                     data["email"],
-                    settings.GROUPS[settings.SUBSCRIPTION_CHOICES[2][0]],
+                    settings.SUBSCRIPTION_CHOICES[2][0],
                     "update",
                 )
                 logger.info(
@@ -186,41 +176,30 @@ def create_or_update_donor(data, subscription):
             if subscription == settings.SUBSCRIPTION_CHOICES[0][0]:
                 # если старый статус "Lost", "Inactive"
                 if donor.subscription in settings.NEY_SUB_STAT:
-                    Donor.objects.update_or_create(
-                        email=data["email"],
-                        defaults={
-                            "subscription": settings.SUBSCRIPTION_CHOICES[3][0]
-                        },
-                    )
+                    # Обновляем его статус на "New"
                     ad_donor(
                         data["email"],
-                        settings.GROUPS[settings.SUBSCRIPTION_CHOICES[3][0]],
+                        settings.SUBSCRIPTION_CHOICES[3][0],
                         "update",
                     )
                     logger.info(
                         f"У Донора {data['email']} обновлен статус "
                         f"{settings.SUBSCRIPTION_CHOICES[3][0]}"
                     )
-                # старый статус "New"
+                # если старый статус "New"
                 elif donor.subscription == "New":
-                    Donor.objects.update_or_create(
-                        email=data["email"],
-                        defaults={"subscription": subscription},
-                    )
+                    # Обновляем его статус на "Active"
                     ad_donor(
                         data["email"],
-                        settings.GROUPS[subscription],
+                        subscription,
                         "update",
                     )
             # если подписка не активна
             else:
-                Donor.objects.update_or_create(
-                    email=data["email"],
-                    defaults={"subscription": subscription},
-                )
+                # Обновляем его статус на "Inactive"
                 ad_donor(
                     data["email"],
-                    settings.GROUPS[subscription],
+                    subscription,
                     "update",
                 )
                 logger.info(
@@ -255,7 +234,7 @@ def send_payment_email(email, message):
         "sender_name": settings.UNISENDER_SENDER_NAME,
         "subject": "Payment information",
         "body": message,
-        "list_id": 1002,
+        "list_id": 1,
     }
     response = requests.post(url, data=data)
 
