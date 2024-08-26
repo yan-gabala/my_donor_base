@@ -69,14 +69,13 @@ def mixplat_request_handler(request):
             currency=request.data["currency"],
         )
 
-        MixPlat.objects.create(**mixplat_obj_dict)
-
         if request.data.get("recurrent_id"):
             subscription = settings.SUBSCRIPTION_CHOICES[0][0]
         else:
             subscription = settings.SUBSCRIPTION_CHOICES[1][0]
 
         create_or_update_donor(mixplat_obj_dict, subscription)
+        MixPlat.objects.create(**mixplat_obj_dict)
 
         return Response(dict(result="ok"), status=status.HTTP_200_OK)
     except KeyError:
@@ -224,6 +223,9 @@ def check_cloudpayments_connection():
 def send_payment_email(email, message):
     """Sending message via Unisender method."""
 
+    donor = Donor.objects.get(email=email)
+    list_id = settings.GROUPS[donor.subscription]
+
     url = settings.DEFAULT_CONF["base_url"] + "/ru/api/sendEmail?format=json"
 
     data = {
@@ -234,7 +236,7 @@ def send_payment_email(email, message):
         "sender_name": settings.UNISENDER_SENDER_NAME,
         "subject": "Payment information",
         "body": message,
-        "list_id": 1,
+        "list_id": list_id,
     }
     response = requests.post(url, data=data)
 
