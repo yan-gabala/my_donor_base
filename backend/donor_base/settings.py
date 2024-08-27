@@ -241,7 +241,6 @@ SUBSCRIPTION_CHOICES = [
     ("Active", "Подписка активна"),
     ("Inactive", "Подписка отсутствует"),
     ("Lost", "Подписка утрачена"),
-    ("New", "Новый подписчик"),
 ]
 GROUPS = {
     "5": "Active",
@@ -250,8 +249,7 @@ GROUPS = {
     "Inactive": "7",
     "9": "Lost",
     "Lost": "9",
-    "12": "New",
-    "New": "12",
 }
+BAD_COUNT = 3
 BAD_STATUSES = ["Cancelled", "Declined", "failure"]
 NEY_SUB_STAT = ["Lost", "Inactive"]

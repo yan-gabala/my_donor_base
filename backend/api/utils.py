@@ -9,6 +9,7 @@ import shutil
 from datetime import datetime
 
 from django.conf import settings
+from django.db.models import F
 from django.utils.timezone import make_aware
 from rest_framework import status
 from rest_framework.response import Response
@@ -33,7 +34,7 @@ def ad_donor(donor, subscription, update=False):
     """Добавляет email донора в указанную группу в БД и в unisender."""
     Donor.objects.update_or_create(
         email=donor,
-        defaults={"subscription": subscription},
+        defaults={"subscription": subscription, "count_declined": 0},
     )
     url = settings.IMPORT_UNISENDER
     data = {
@@ -143,14 +144,15 @@ def create_or_update_donor(data, subscription):
             )
         # Если подписка активна:
         elif subscription == settings.SUBSCRIPTION_CHOICES[0][0]:
-            # Сохраняем как New
+            # Сохраняем как "Active"
             ad_donor(
                 data["email"],
-                settings.SUBSCRIPTION_CHOICES[3][0],
+                settings.SUBSCRIPTION_CHOICES[0][0],
             )
+            # !!! Добавить вызов создания письма донору !!!!
             logger.info(
                 f"Создан Донор {data['email']} "
-                f"{settings.SUBSCRIPTION_CHOICES[3][0]}"
+                f"{settings.SUBSCRIPTION_CHOICES[0][0]}"
             )
     # Если донор есть в базе смотрим статус платежа
     else:
@@ -159,50 +161,46 @@ def create_or_update_donor(data, subscription):
         if data["status"] in settings.BAD_STATUSES:
             # Если в базе статус активен
             if donor.subscription == settings.SUBSCRIPTION_CHOICES[0][0]:
-                # Обновляем его статус на Lost
-                ad_donor(
-                    data["email"],
-                    settings.SUBSCRIPTION_CHOICES[2][0],
-                    "update",
-                )
-                logger.info(
-                    f"У Донора {data['email']} "
-                    f"обновлен статус на {settings.SUBSCRIPTION_CHOICES[2][0]}"
-                )
+                # если у донора 3й откланённый платёж
+                if donor.count_declined + 1 == settings.BAD_COUNT:
+                    # Обновляем его статус на Lost
+                    ad_donor(
+                        data["email"],
+                        settings.SUBSCRIPTION_CHOICES[2][0],
+                        "update",
+                    )
+                    logger.info(
+                        f"У Донора {data['email']} обновлен статус "
+                        f"на {settings.SUBSCRIPTION_CHOICES[2][0]}"
+                    )
+                else:
+                    Donor.objects.filter(email=data["email"]).update(
+                        count_declined=F("count_declined" + 1)
+                    )
         # Если платеж успешный, обновляем запись
         else:
             # если активная подписка
             if subscription == settings.SUBSCRIPTION_CHOICES[0][0]:
                 # если старый статус "Lost", "Inactive"
                 if donor.subscription in settings.NEY_SUB_STAT:
-                    # Обновляем его статус на "New"
-                    ad_donor(
-                        data["email"],
-                        settings.SUBSCRIPTION_CHOICES[3][0],
-                        "update",
-                    )
-                    logger.info(
-                        f"У Донора {data['email']} обновлен статус "
-                        f"{settings.SUBSCRIPTION_CHOICES[3][0]}"
-                    )
-                # если старый статус "New"
-                elif donor.subscription == "New":
                     # Обновляем его статус на "Active"
                     ad_donor(
                         data["email"],
-                        subscription,
+                        settings.SUBSCRIPTION_CHOICES[0][0],
                         "update",
                     )
-            # если подписка не активна
+                    # !!! Добавить вызов создания письма донору !!!!
+                    logger.info(
+                        f"У Донора {data['email']} обновлен статус "
+                        f"{settings.SUBSCRIPTION_CHOICES[0][0]}"
+                    )
+                else:
+                    Donor.objects.filter(email=data["email"]).update(
+                        count_declined=0
+                    )
             else:
-                # Обновляем его статус на "Inactive"
-                ad_donor(
-                    data["email"],
-                    subscription,
-                    "update",
-                )
-                logger.info(
-                    f"У Донора {data['email']} обновлен статус{subscription}"
+                Donor.objects.filter(email=data["email"]).update(
+                    count_declined=0
                 )
 
 
@@ -236,7 +234,7 @@ def send_payment_email(email, message):
         "sender_name": settings.UNISENDER_SENDER_NAME,
         "subject": "Payment information",
         "body": message,
-        "list_id": list_id,
+        "list_id": 1 if list_id else 1,
     }
     response = requests.post(url, data=data)
 
