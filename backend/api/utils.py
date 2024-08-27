@@ -194,6 +194,14 @@ def create_or_update_donor(data, subscription):
                         f"У Донора {data['email']} обновлен статус "
                         f"{settings.SUBSCRIPTION_CHOICES[0][0]}"
                     )
+                else:
+                    Donor.objects.filter(email=data["email"]).update(
+                        count_declined=0
+                    )
+            else:
+                Donor.objects.filter(email=data["email"]).update(
+                    count_declined=0
+                )
 
 
 def check_cloudpayments_connection():
