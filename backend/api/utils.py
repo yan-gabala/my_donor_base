@@ -34,7 +34,7 @@ def ad_donor(donor, subscription, update=False):
     """Добавляет email донора в указанную группу в БД и в unisender."""
     Donor.objects.update_or_create(
         email=donor,
-        defaults={"subscription": subscription},
+        defaults={"subscription": subscription, "count_declined": 0},
     )
     url = settings.IMPORT_UNISENDER
     data = {
