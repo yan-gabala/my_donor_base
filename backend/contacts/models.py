@@ -53,6 +53,10 @@ class Donor(models.Model):
         choices=settings.SUBSCRIPTION_CHOICES,
         verbose_name="Статус подписки у донора",
     )
+    count_declined = models.PositiveSmallIntegerField(
+        default=settings.ZERO,
+        verbose_name="Счётчик неудачных платежей",
+    )
 
     class Meta:
         verbose_name = "Донор"
