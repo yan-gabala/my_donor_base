@@ -175,7 +175,7 @@ def create_or_update_donor(data, subscription):
                     )
                 else:
                     Donor.objects.filter(email=data["email"]).update(
-                        count_declined=F("count_declined" + 1)
+                        count_declined=F("count_declined") + 1
                     )
         # Если платеж успешный, обновляем запись
         else:
