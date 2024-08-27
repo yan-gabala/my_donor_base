@@ -18,5 +18,5 @@ def payment_handler(sender, instance, **kwargs):
     elif instance.status in ["success", "Completed"]:
         message = f"Ваш платеж на {instance.donat} выполнен."
 
-    if email and message:
-        send_payment_email(email, message)
+    # if email and message:
+    #     send_payment_email(email, message)
