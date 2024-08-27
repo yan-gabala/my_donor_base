@@ -1,7 +1,7 @@
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
-from .utils import send_payment_email
+# from .utils import send_payment_email
 from cloudpayments.models import CloudPayment
 from mixplat.models import MixPlat
 
