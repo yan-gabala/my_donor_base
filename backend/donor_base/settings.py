@@ -233,7 +233,7 @@ EXPORT_UNISENDER = "https://api.unisender.com/ru/api/async/exportContacts"
 IMPORT_UNISENDER = "https://api.unisender.com/ru/api/importContacts"
 UNISENDER_API_KEY = os.getenv("UNISENDER_API_KEY")
 NOTIFY_URL = "https://foodgrampyengineer.ru/api/contacts/get_contacts/"
-SEND_EEMAIL = "https://api.unisender.com/ru/api/sendEmail"
+URL_SEND_EMAIL = "https://api.unisender.com/ru/api/sendEmail"
 URL_GET_TEMP = "https://api.unisender.com/ru/api/getTemplate"
 TEMPLATE_ID = os.getenv("TEMPLATE_ID")
 

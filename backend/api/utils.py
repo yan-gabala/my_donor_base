@@ -257,7 +257,7 @@ def send_payment_email(email, list_id):
         "list_id": list_id,
     }
 
-    response = requests.post(settings.SEND_EEMAIL, data=data, timeout=30)
+    response = requests.post(settings.URL_SEND_EMAIL, data=data, timeout=30)
 
     if response.status_code != status.HTTP_200_OK:
         logger.info(f"Ошибка при отправке сообщения: {response.status_code}")
