@@ -112,6 +112,7 @@ jobs:
         echo UNISENDER_SENDER_NAME=${{ secrets.UNISENDER_SENDER_NAME }} >> .env && \
         echo DEFAULT_FROM_EMAIL=${{ secrets.DEFAULT_FROM_EMAIL }} >> .env && \
         echo REQUEST_URL=${{ secrets.REQUEST_URL }} >> .env && \
+        echo TEMPLATE_ID=${{ secrets.TEMPLATE_ID }} >> .env && \
         docker compose -f docker-compose.production.yml pull && \
         docker compose -f docker-compose.production.yml down && \
         docker compose -f docker-compose.production.yml up -d && \
@@ -128,4 +129,3 @@ jobs:
       run: |
         ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd nko && \
         docker compose -f docker-compose.production.yml exec backend bash -c 'celery -A donor_base beat --loglevel=info > /dev/null 2>&1 &'"
-
