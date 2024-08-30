@@ -149,7 +149,11 @@ def create_or_update_donor(data, subscription):
                 data["email"],
                 settings.SUBSCRIPTION_CHOICES[0][0],
             )
-            # !!! Добавить вызов создания письма донору !!!!
+            # Отправляем донору письмо
+            send_payment_email(
+                data["email"],
+                settings.GROUPS[settings.SUBSCRIPTION_CHOICES[0][0]],
+            )
             logger.info(
                 f"Создан Донор {data['email']} "
                 f"{settings.SUBSCRIPTION_CHOICES[0][0]}"
@@ -189,7 +193,11 @@ def create_or_update_donor(data, subscription):
                         settings.SUBSCRIPTION_CHOICES[0][0],
                         "update",
                     )
-                    # !!! Добавить вызов создания письма донору !!!!
+                    # Отправляем донору письмо
+                    send_payment_email(
+                        data["email"],
+                        settings.GROUPS[settings.SUBSCRIPTION_CHOICES[0][0]],
+                    )
                     logger.info(
                         f"У Донора {data['email']} обновлен статус "
                         f"{settings.SUBSCRIPTION_CHOICES[0][0]}"
@@ -218,25 +226,38 @@ def check_cloudpayments_connection():
     return False
 
 
-def send_payment_email(email, message):
-    """Sending message via Unisender method."""
-
-    donor = Donor.objects.get(email=email)
-    list_id = settings.GROUPS[donor.subscription]
-
-    url = settings.DEFAULT_CONF["base_url"] + "/ru/api/sendEmail?format=json"
+def send_payment_email(email, list_id):
+    """
+    Запрос на получение шаблона от unisender,
+    отправка письма Донору по шаблону.
+    """
 
     data = {
-        "api_key": settings.DEFAULT_CONF["api_key"],
         "format": "json",
+        "api_key": settings.UNISENDER_API_KEY,
+        "template_id": settings.TEMPLATE_ID,
+    }
+
+    response = requests.post(settings.URL_GET_TEMP, data=data, timeout=30)
+
+    if response.status_code != status.HTTP_200_OK:
+        logger.info(f"Ошибка при запросе шаблона: {response.status_code}")
+        logger.info(f"Ответ сервера: {response.text}")
+
+    res = response.json()["result"]
+
+    data = {
+        "format": "json",
+        "api_key": settings.UNISENDER_API_KEY,
         "email": email,
         "sender_email": settings.DEFAULT_FROM_EMAIL,
-        "sender_name": settings.UNISENDER_SENDER_NAME,
-        "subject": "Payment information",
-        "body": message,
-        "list_id": 1 if list_id else 1,
+        "sender_name": "crisis-center",
+        "subject": res["subject"],
+        "body": res["body"],
+        "list_id": list_id,
     }
-    response = requests.post(url, data=data)
+
+    response = requests.post(settings.SEND_EEMAIL, data=data, timeout=30)
 
     if response.status_code != status.HTTP_200_OK:
         logger.info(f"Ошибка при отправке сообщения: {response.status_code}")
