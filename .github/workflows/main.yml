@@ -80,6 +80,7 @@ jobs:
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.SSH_KEY }}
+        sshpassphrase: ${{ secrets.SSH_PASSPHRASE}}
 
     - name: Display ssh-agent status
       run: ssh-add -l
