@@ -89,12 +89,12 @@ jobs:
         mkdir -p ~/.ssh
         ssh-keyscan ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
-    - name: Pull repo develop branch
-      run: ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd nko && git checkout develop && git pull"
+    # - name: Pull repo develop branch
+    #   run: ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd acquirings && git checkout develop && git pull"
 
     - name: Restart project using ssh
       run: |
-        ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd nko && rm .env && touch .env && \
+        ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd acquirings && rm .env && touch .env && \
         echo SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} >> .env && \
         echo DEBUG=${{ secrets.DEBUG }} >> .env && \
         echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env && \
@@ -122,10 +122,10 @@ jobs:
 
     - name: Run Celery worker
       run: |
-        ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd nko && \
+        ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd acquirings && \
         docker compose -f docker-compose.production.yml exec backend bash -c 'celery -A donor_base worker --loglevel=info -D'"
 
     - name: Run Celery beat
       run: |
-        ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd nko && \
+        ssh ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "cd acquirings && \
         docker compose -f docker-compose.production.yml exec backend bash -c 'celery -A donor_base beat --loglevel=info > /dev/null 2>&1 &'"
