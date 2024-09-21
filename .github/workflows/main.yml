@@ -157,6 +157,7 @@ jobs:
 #        docker image prune -a -f"
 
     - name: Run Celery worker
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
@@ -166,6 +167,7 @@ jobs:
           docker compose -f docker-compose.production.yml exec backend bash -c 'celery -A donor_base worker --loglevel=info -D'
 
     - name: Run Celery beat
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
