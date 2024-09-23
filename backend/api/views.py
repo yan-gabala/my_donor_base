@@ -102,7 +102,6 @@ class CloudPaymentsViewSet(viewsets.GenericViewSet):
         if serializer.is_valid():
             serializer.save()
             return Response(dict(code=0), status=status.HTTP_200_OK)
-        logger.error(f"Ошибка структуры ответа:{request.data}")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
