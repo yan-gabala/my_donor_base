@@ -109,16 +109,16 @@ def handling_cloudpayment_data(request):
     if isinstance(request.data, dict) and "Model" in request.data:
         model = request.data
         data = {
-            "email": model.get("Email"),
-            "donat": model.get("Amount"),
-            "date_created": model.get("DateTime"),
-            "date_processed": model.get("DateTime"),
-            "payment_id": model.get("TransactionId"),
-            "status": model.get("Status"),
+            "email": model.get("Email")[0],
+            "donat": int(model.get("Amount")[0]),
+            "date_created": model.get("DateTime")[0],
+            "date_processed": model.get("DateTime")[0],
+            "payment_id": model.get("TransactionId")[0],
+            "status": model.get("Status")[0],
             "payment_operator": "Cloudpayment",
-            "payment_method": model.get("CardType"),
-            "user_account_id": model.get("TransactionId"),
-            "currency": model.get("Currency"),
+            "payment_method": model.get("CardType")[0],
+            "user_account_id": int(model.get("TransactionId")[0]),
+            "currency": model.get("Currency")[0],
         }
         subscription = check_donor_subscriptions(data["email"])
         create_or_update_donor(data, subscription)
