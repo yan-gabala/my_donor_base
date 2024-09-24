@@ -106,13 +106,13 @@ def handling_cloudpayment_data(request):
     """Формирование данных для сериалайзера CloudpaymentsSerializer."""
     # Предлполагаем, что request.data содержит json-объект,
     # т.е. ответ сервиса Cloudpayments при запросе на создании платежа.
-    if isinstance(request.data, dict) and "Model" in request.data:
-        model = request.data["Model"][0]
+    if isinstance(request.data, dict):
+        model = request.data
         data = {
             "email": model.get("Email"),
             "donat": model.get("Amount"),
-            "date_created": model.get("CreatedDateIso"),
-            "date_processed": model.get("ConfirmDateIso"),
+            "date_created": model.get("DateTime"),
+            "date_processed": model.get("DateTime"),
             "payment_id": model.get("TransactionId"),
             "status": model.get("Status"),
             "payment_operator": "Cloudpayment",
