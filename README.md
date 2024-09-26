@@ -1,4 +1,5 @@
-# Donor_base
+# Donor_base - База жертвователей центра поддержки женщин в кризисных ситуациях. 
+Ссылка на организацию Гитхаба https://github.com/nko-nzhkc/nko/tree/develop
 
 
 ### Pre-commit
