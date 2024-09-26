@@ -35,3 +35,12 @@ class Command(BaseCommand):
         pass
 
     cl._api_request(method, data_unisender)
+
+
+"for commit"
+
+def add_data(self, parser: CommandParser) -> None:
+        parser.add_argument(data_unisender)
+def handle(self, *args, **options):
+        pass
+cl._api_request(method, data_unisender)
