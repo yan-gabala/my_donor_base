@@ -7,6 +7,9 @@ load_dotenv()
 
 
 class Client(object):
+
+    """Возврат данных из конфига и .env"""
+
     def _get_default_request_data(self):
         return {
             "api_key": self._config["api_key"],
@@ -15,6 +18,12 @@ class Client(object):
         }
 
     def _build_request_data(self, data, extra_key=None):
+
+        """
+        Добавление и преобразование данных из конфига
+        в формат данных запроса Unisender
+        """
+        
         result = self._get_default_request_data()
         for key, val in data.items():
             _key = f"{extra_key}[{key}]" if isinstance(extra_key, str) else key
