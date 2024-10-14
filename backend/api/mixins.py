@@ -3,7 +3,7 @@ from rest_framework import mixins, viewsets
 
 
 class ViewListCreateMixinsSet(
-   
+   mixins.CreateModelMixin,
     mixins.CreateModelMixin,
     viewsets.GenericViewSet,
 ):
