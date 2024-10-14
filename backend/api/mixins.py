@@ -3,10 +3,11 @@ from rest_framework import mixins, viewsets
 
 
 class ViewListCreateMixinsSet(
-    mixins.ListModelMixin,
+   mixins.CreateModelMixin,
     mixins.CreateModelMixin,
     viewsets.GenericViewSet,
 ):
     """Сет миксинов: просмотр, создание."""
 
     pass
+ # mixins.ListModelMixin,
